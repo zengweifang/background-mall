@@ -1,0 +1,30 @@
+.st-ul{
+    list-style: none;
+    margin-top: 16px;
+    li{
+        width: 100px;
+        // font-size: 16px;
+        border: 1px solid #d9d9d9;
+        height: 28px;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 28px;
+        float: left;
+        margin-left: 16px;
+        position: relative;
+        &:first-of-type{
+            margin-left: 0;
+        }
+        i{
+            position: absolute;
+            right: -8px;
+            top: -8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 15px;
+            cursor: pointer;
+        }
+    }
+}

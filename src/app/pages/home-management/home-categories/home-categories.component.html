@@ -1,0 +1,110 @@
+<nz-content style="margin:0 16px;">
+  <nz-breadcrumb style="margin:12px 0;">
+    <nz-breadcrumb-item>首页类目管理</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div style="padding:24px; background: #fff; min-height: 360px;">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="validateForm">
+      <div nz-form-item nz-row>
+          <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+              <label [attr.for]="title">标题</label>
+            </div>
+        <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+          <nz-input formControlName="title" [(ngModel)]="_params.filter.title" [nzPlaceHolder]="'名称'" [nzSize]="'large'">
+          </nz-input>
+          <div nz-form-explain *ngIf="validateForm.controls.title.dirty&&validateForm.controls.title.hasError('required')">请输入名称</div>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+          <label [attr.for]="selectedStatusTypeOption">状态</label>
+        </div>
+        <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+          <nz-select style="width: 140px;" [(ngModel)]="_params.filter.status" formControlName="selectedStatusTypeOption" [nzPlaceHolder]="'状态'">
+            <nz-option *ngFor="let option of serviceOrderStatuses" [nzLabel]="option.statusName" [nzValue]="option.statusType">
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <button nz-button [nzType]="'primary'" (click)="refreshData(true)">
+        <span>搜索</span>
+      </button>
+
+    <button nz-button [nzType]="'primary'" style="float: right;" (click)="addNew()">
+        <i class="anticon anticon-plus"></i>
+        <span>新增</span>
+      </button>
+    </form>
+    <div class="search-result-list">
+      <nz-table #nzTable [nzAjaxData]="_dataSet" nzShowSizeChanger [nzLoading]="_loading" [nzTotal]="_total" [(nzPageIndex)]="_params.page.currentPage"
+        (nzPageIndexChange)="refreshData()" [(nzPageSize)]="_params.page.pageSize" (nzPageSizeChange)="refreshData()" [nzShowTotal]="true">
+        <thead nz-thead>
+          <tr>
+            <th nz-th>图片</th>
+            <th nz-th>标题</th>
+            <th nz-th [nzWidth]="'300px'">备注</th>
+            <th nz-th>排序</th>
+            <th nz-th>状态</th>
+            <th nz-th>操作</th>
+          </tr>
+        </thead>
+        <tbody nz-tbody>
+          <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+            <td nz-td>
+                <img src="{{data.iconImgUrl}}" width="40" height="40" />
+            </td>
+            <td nz-td>{{data.title}}</td>
+            <td nz-td>{{data.remark}}</td>
+            <td nz-td>{{data.index}}</td>
+            <td nz-td>{{data.status === 1 ? '开启中' : '已停用'}}</td>
+            <td nz-td>
+                <a href="javascript:;" (click)="toChannel(data)">投放渠道</a>
+                <span nz-table-divider></span>
+                <nz-dropdown>
+                    <a class="ant-dropdown-link" nz-dropdown>
+                      更多 <i class="anticon anticon-down"></i>
+                    </a>
+                    <ul nz-menu>
+                      <li nz-menu-item>
+                          <a href="javascript:;" (click)="edit(data)">编辑</a>
+                      </li>
+                      <li nz-menu-item *ngIf="data.status === 1">
+                          <a href="javascript:;" (click)="stop(data)">停用</a>
+                      </li>
+                      <li nz-menu-item *ngIf="data.status === 2">
+                          <a href="javascript:;" (click)="delete(data)">删除</a>
+                      </li>
+                      <li nz-menu-item *ngIf="data.status === 2">
+                          <a href="javascript:;" (click)="open(data)">开启</a>
+                      </li>
+                    </ul>
+                  </nz-dropdown>
+              <!-- <span>
+                <a href="javascript:;" (click)="toChannel(data)">投放渠道</a>
+                <span>
+                  <span nz-table-divider></span>
+                  <a href="javascript:;" (click)="edit(data)">编辑</a>
+                </span>
+                <span *ngIf="data.status === 1">
+                  <span nz-table-divider></span>
+                  <a href="javascript:;" (click)="stop(data)">停用</a>
+                </span>
+                <span *ngIf="data.status === 2">
+                  <span nz-table-divider></span>
+                  <a href="javascript:;" (click)="delete(data)">删除</a>
+                </span>
+                <span *ngIf="data.status === 2">
+                  <span nz-table-divider></span>
+                  <a href="javascript:;" (click)="open(data)">开启</a>
+                </span> -->
+                <!-- <span nz-table-divider></span>
+                <nz-popconfirm [nzTitle]="'确认删除？'" (nzOnConfirm)="delete(data)" (nzOnCancel)="cancel()">
+                  <a nz-popconfirm>删除</a>
+                </nz-popconfirm> -->
+              <!-- </span> -->
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</nz-content>

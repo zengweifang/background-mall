@@ -1,0 +1,38 @@
+<div>
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event,validateForm.value)">
+    <div nz-form-item nz-row>
+      <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+        <label for="alias" nz-form-item-required>别名</label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <nz-input [nzSize]="'large'" formControlName="alias" [nzId]="'alias'"></nz-input>
+        <div nz-form-explain *ngIf="getFormControl('alias').dirty&&getFormControl('alias').hasError('required')">请输入别名!</div>
+      </div>
+    </div>
+    <div nz-form-item nz-row>
+      <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+        <label for="name" nz-form-item-required>资源名</label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <nz-input [nzSize]="'large'" formControlName="name" [nzId]="'name'"></nz-input>
+        <div nz-form-explain *ngIf="getFormControl('name').dirty&&getFormControl('name').hasError('required')">请输入资源名!</div>
+      </div>
+    </div>
+    <div nz-form-item nz-row>
+      <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+        <label for="describe">描述</label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <nz-input [nzSize]="'large'" formControlName="describe" [nzId]="'describe'" [nzRows]="2" [nzType]="'textarea'" [nzPlaceHolder]="'描述'" [nzSize]="'large'"></nz-input>
+      </div>
+    </div>
+  </form>
+  <div class="customize-footer">
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+      取消
+    </button>
+    <button nz-button [nzLoading]="isLoading" [nzType]="'primary'" [nzSize]="'large'" (click)="_submitForm($event)">
+      注册
+    </button>
+  </div>
+</div>

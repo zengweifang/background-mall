@@ -1,0 +1,31 @@
+<div class="list-header">
+        <label nz-checkbox [(ngModel)]="stat.checkAll" (ngModelChange)="onHandleSelectAll($event)"
+        [nzIndeterminate]="stat.checkHalf"></label>
+    <span>{{ (stat.checkCount > 0 ? stat.checkCount + '/' : '') + stat.shownCount }}
+    </span><span>项目</span>
+</div>
+<div class="{{showSearch ? 'list-body list-body-with-search' : 'list-body'}}">
+    <div class="search-wrapper">
+        <custom-transfer-search
+        (valueChanged)="handleFilter($event)"
+          (valueClear)="handleClear()"
+          [placeholder]="searchPlaceholder"
+          [value]="filter">
+            
+        </custom-transfer-search>
+    </div>
+    <ul class="list-content">
+        <ng-container *ngFor="let item of dataSource">
+            <li *ngIf="!item._hiden" (click)="_handleSelect(item)" class="list-content-item">
+                <label nz-checkbox [ngModel]="item.checked" [nzDisabled]="item.disabled">
+                    <span>
+                        <ng-container *ngIf="!render; else renderContainer">{{ item.title }}</ng-container>
+                        <ng-template #renderContainer [ngTemplateOutlet]="render" [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
+                      </span>
+                </label>
+            </li>
+        </ng-container>
+    </ul>
+    <div class="list-body-not-found">{{ notFoundContent }}</div>
+    <div class="footer"></div>
+</div>

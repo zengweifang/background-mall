@@ -1,0 +1,44 @@
+<div>
+    <form nz-form [nzLayout]="'inline'" [formGroup]="validateForm">
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzMd]="10" [nzSm]="10" [nzXs]="10">
+                <label [attr.for]="name">内容组名称</label>
+              </div>
+          <div nz-form-control nz-col [nzMd]="14" [nzSm]="14" [nzXs]="14">
+            <nz-input formControlName="name" [(ngModel)]="_params.name" [nzPlaceHolder]="'名称'" [nzSize]="'large'">
+            </nz-input>
+          </div>
+        </div>
+        <button nz-button [nzType]="'primary'" (click)="refreshData(true)">
+          <span>搜索</span>
+        </button>
+    </form>
+  <div class="search-result-list">
+      <nz-table #nzTable [nzAjaxData]="dataSet" nzShowSizeChanger [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="_params.page.currentPage"
+        (nzPageIndexChange)="refreshData()" [(nzPageSize)]="_params.page.pageSize" (nzPageSizeChange)="refreshData()" [nzShowTotal]="true">
+        <thead nz-thead>
+          <tr>
+            <th nz-th>选择</th>
+            <th nz-th>名称</th>
+            <th nz-th>类型</th>
+            <th nz-th [nzWidth]="'150px'">备注</th>
+          </tr>
+        </thead>
+        <tbody nz-tbody>
+          <tr nz-tbody-tr *ngFor="let data of nzTable.data" (click)="selectGroup(data)">
+            <td nz-td>
+              <input type="radio" [checked]="selectedGroup && selectedGroup.id === data.id" name="contentGroup">
+            </td>
+            <td nz-td>{{data.name}}</td>
+            <td nz-td>{{data.type === 1 ? '品类' : '商品'}}</td>
+            <td nz-td>{{data.note}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  <div class="customize-footer">
+    <button nz-button [disabled]="selectedGroup === null" [nzType]="'primary'" [nzSize]="'large'" (click)="confirm()">
+      提交
+    </button>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div>
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="_submitForm()">
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label>
+                    <span>公寓品牌</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                {{apartmentInfo.name}}
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label for="contact">
+                    <span>负责人姓名</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="validateForm.controls['contact']">
+                <nz-input [nzSize]="'large'" formControlName="contact" [nzId]="'contact'"  [(ngModel)]="apartmentInfo.contact"></nz-input>
+                <div nz-form-explain *ngIf="getFormControl('contact').dirty&&getFormControl('contact').hasError('required')">请填写负责人姓名</div>
+                <div nz-form-explain *ngIf="getFormControl('contact').dirty&&getFormControl('contact').hasError('contact')">长度1~32个字符，限汉字、字母</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label for="phone">负责人联系方式</label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="validateForm.controls['phone']">
+                <nz-input [nzSize]="'large'" formControlName="phone" [nzId]="'phone'" [(ngModel)]="apartmentInfo.phone"></nz-input>
+                <div nz-form-explain *ngIf="getFormControl('phone').dirty&&getFormControl('phone').hasError('required')">请填写手机号码</div>
+                <div nz-form-explain *ngIf="getFormControl('phone').dirty&&getFormControl('phone').hasError('phone')">请填写正确手机号码</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label>
+                    <span>公寓账号</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                {{apartmentInfo.account}}
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label>
+                    <span>房源数量</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                {{apartmentInfo.count}}
+            </div>
+        </div>
+    </form>
+    <div class="customize-footer">
+        <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="emitDataOutside($event)" [nzLoading]="isConfirmLoading" [disabled]="!validateForm.valid">
+            保 存
+        </button>
+        <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+            返 回
+        </button>
+    </div>
+</div>

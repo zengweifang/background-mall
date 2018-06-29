@@ -1,0 +1,15 @@
+
+.section {
+    border: 1px solid #ececec;
+    border-radius: 5px;
+}
+
+.section-header {
+    padding: 10px;
+    background-color: #ececec;
+}
+
+.section-body {
+    padding: 10px 10px;
+}
+

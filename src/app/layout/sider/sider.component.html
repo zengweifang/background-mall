@@ -1,0 +1,44 @@
+<nz-layout style="min-height:100%;">
+  <nz-sider *ngIf="isLogin" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" style="z-index:1">
+    <div class="logo">
+      <img src="assets/images/LOGO.png" alt="" *ngIf="!isCollapsed">
+    </div>
+    <ul *ngIf="menu.length" nz-menu [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
+      <li nz-submenu *ngFor="let item of menu">
+        <span title>
+          <img src="{{item.imageUrl | imagePipe}}" style="margin-right: 8px;position: relative;">
+          <span class="nav-text">{{item.name}}</span>
+        </span>
+        <ul>
+            <!-- <li nz-menu-item *ngFor="let i of item.subMenus" routerLink="{{i.url | urlPipe}}">{{i.name}}</li> --><!--使用该模版，导致样式有边框-->
+          <li nz-menu-item *ngFor="let i of item.subMenus" (click)="go(i)">{{i.name}}</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header style="background: #fff; padding:0;">
+      <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
+      <i class="anticon trigger logout">
+        <nz-popover [nzTrigger]="'click'" [nzTitle]="userName" [(nzVisible)]="visible">
+          <div nz-popover>
+            <div style="display:flex;display: -webkit-flex;align-items:center;">
+              <img src="assets/images/g1.jpg" alt="">
+              <span style="padding-left:5px;">{{userName}}</span>
+            </div>
+          </div>
+          <ng-template #nzTemplate>
+            <p>修改密码</p>
+            <p>个人信息</p>
+            <a (click)='clickMe()'>注销</a>
+          </ng-template>
+        </nz-popover>
+      </i>
+    </nz-header>
+    <nz-content style="margin:0 16px;" class="ps-r">
+      <router-outlet></router-outlet>
+      <app-page-loading [spinning]="_spinning"></app-page-loading>
+    </nz-content>
+    <!-- <nz-footer style="text-align: center;">Ant Design ©2017 Implement By Angular</nz-footer> -->
+  </nz-layout>
+</nz-layout>

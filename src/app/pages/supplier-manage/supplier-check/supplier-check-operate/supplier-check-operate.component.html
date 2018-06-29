@@ -1,0 +1,98 @@
+<nz-content style="margin:0 16px">
+    <div nz-row>
+      <div nz-col [nzSpan]="24" style="margin:12px 0;">
+        <nz-breadcrumb style="margin:12px 0;">
+          <nz-breadcrumb-item>供应商管理</nz-breadcrumb-item>
+          <nz-breadcrumb-item>查看供应商</nz-breadcrumb-item>
+          <nz-breadcrumb-item>查看经营品类范围</nz-breadcrumb-item>
+        </nz-breadcrumb>
+      </div>
+    </div>
+    <div style="padding:20px;background: #fff">
+      <div nz-row>
+        <div nz-col [nzSpan]="24" style="margin-bottom: 12px">
+          <button style="float: right" nz-button (click)="goBack()">返回</button>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col [nzSpan]="24">
+          <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" [nzSelectedIndex]="_currentTab">
+            <nz-tab *ngFor="let tab of _tabs" (nzClick)="tabClick(tab)">
+              <ng-template #nzTabHeading>
+                {{tab.tabName}}
+              </ng-template>
+            </nz-tab>
+          </nz-tabset>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col [nzSpan]="24">
+          <form nz-form [formGroup]="_supplierCheckOperateForm" class="ant-advanced-search-form" novalidate>
+            <div nz-row [nzGutter]="40">
+              <div nz-col nz-form-control [nzSpan]="8">
+                <nz-cascader
+                  nzChangeOnSelect
+                  [formControlName]="'goodsType'"
+                  [nzPlaceHolder]="'选择一、二、三级品类'"
+                  [nzSize]="'large'"
+                  [nzValueProperty]="'goodsTypeId'"
+                  [nzLabelProperty]="'name'"
+                  (nzLoad)="loadData($event)">
+                </nz-cascader>
+              </div> 
+              <div nz-col [nzSpan]="3">
+                  <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+              </div>
+              <div nz-col [nzSpan]="3" [nzPush]="10">
+                <button nz-button [nzType]="'primary'" style="float:right" (click)="goAdd()">新增品类</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div nz-row style="margin-top: 20px;">
+        <div nz-col [nzSpan]="24">
+          <button style="margin-right: 16px" nz-button [nzSize]="'large'" [nzLoading]="_deleteBtnLoading" [nzType]="'primary'" [disabled]="_disabledButton" (click)="delete()">批量清除</button>已选中<span style="color: red">{{_checkedNumber}}</span>个
+        </div>
+      </div>
+
+      <div nz-row style="margin-top: 20px">
+        <div nz-col [nzSpan]="24">
+          <nz-table #nzTable [nzAjaxData]="_dataSet" nzCustomNoResult nzShowSizeChanger [nzLoading]="_loading" [nzTotal]="_total" [(nzPageIndex)]="_reqParam.page.currentPage"
+            (nzPageIndexChange)="getGoodsTypeInfo()" [(nzPageSize)]="_reqParam.page.pageSize" (nzPageSizeChange)="getGoodsTypeInfo()" [nzShowTotal]="true"
+            [nzBordered]="true">
+              <thead nz-thead>
+                <tr>
+                  <th nz-th [nzCheckbox]="true">
+                    <label nz-checkbox [(ngModel)]="_allChecked" [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
+                    </label>
+                  </th>
+                  <th nz-th>
+                    <span>一级品类</span>
+                  </th>
+                  <th nz-th>
+                    <span>二级品类</span>
+                  </th>
+                  <th nz-th>
+                    <span>三级品类</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody nz-tbody>
+                <tr nz-tbody-tr *ngFor="let item of (_dataSet | goodsTypePipe);let i = index">
+                  <td nz-td [nzCheckbox]="true">
+                    <label nz-checkbox [(ngModel)]="item.checked" (ngModelChange)="_refreshStatus($event)"></label>
+                  </td>
+                  <td nz-td>{{item.firstTypeName}}</td>
+                  <td nz-td>{{item.secondTypeName}}</td>
+                  <td nz-td>{{item.thirdTypeName}}</td>
+                </tr>
+              </tbody>
+          </nz-table>
+          
+        </div>
+      </div>
+    </div>
+    <nz-back-top></nz-back-top>
+  </nz-content>

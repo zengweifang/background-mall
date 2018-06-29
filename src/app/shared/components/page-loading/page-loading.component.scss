@@ -1,0 +1,16 @@
+:host(.page-loading) {
+    position: relative;
+}
+
+.spinContainer{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #fff;
+    opacity: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

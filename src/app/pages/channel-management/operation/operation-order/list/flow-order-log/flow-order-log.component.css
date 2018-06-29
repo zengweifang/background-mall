@@ -1,0 +1,74 @@
+:host ::ng-deep .customize-footer {
+  border-top: 1px solid #e9e9e9;
+  padding: 10px 18px 0 10px;
+  text-align: right;
+  border-radius: 0 0 0px 0px;
+  margin: 15px -16px -5px -16px;
+}
+
+.back {
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.back-btn {
+  color: #3c90ea;
+  border-color: #3c90ea;
+  float: right;
+}
+
+.err {
+  margin-top: 10px;
+}
+
+.operations {
+  margin-top: 15px;
+}
+
+.section {
+  margin-bottom: 32px;
+  border-bottom: 1px solid #ececec;
+}
+
+.section-header {
+  padding: 5px 24px;
+  background-color: #ececec;
+}
+
+.section-body {
+  padding: 24px;
+}
+
+.operations-btn {
+  margin-right: 5px;
+}
+
+.cancel-order {
+  margin-left: 20px;
+}
+
+.section-body .tip .number{
+  font-size: 18px;
+  color: #3c90ea;
+}
+
+.custom-filter-dropdown {
+  padding: 8px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+}
+
+.custom-filter-dropdown ::ng-deep nz-input {
+  width: 130px;
+  margin-right: 8px;
+}
+
+.highlight {
+  color: #f50;
+}
+
+.check-location {
+  margin-bottom: 16px;
+}
+

@@ -1,0 +1,67 @@
+<nz-content style="margin:0 16px;">
+  <nz-breadcrumb style="margin:12px 0;">
+    <nz-breadcrumb-item>OAuth注册</nz-breadcrumb-item>
+    <nz-breadcrumb-item>资源注册</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div style="padding:24px; background: #fff; min-height: 360px;">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" class="ant-advanced-search-form">
+      <div nz-form-item nz-row>
+        <div nz-form-control nz-col>
+          <nz-input formControlName="alias" [nzPlaceHolder]="'别名'" [nzSize]="'large'">
+          </nz-input>
+        </div>
+        <div nz-form-control nz-col>
+          <nz-input formControlName="name" [nzPlaceHolder]="'资源名'" [nzSize]="'large'">
+          </nz-input>
+        </div>
+      </div>
+      <button nz-button [nzType]="'primary'" (click)="search()">
+        <i class="anticon anticon-search"></i>
+        <span>搜索</span>
+      </button>
+      <button nz-button [nzType]="'default'" (click)="resetForm($event)">
+        <span>重置</span>
+      </button>
+    </form>
+    <button nz-button [nzType]="'primary'" style="margin-top:15px;" (click)="addResourse($event)">
+      <i class="anticon anticon-plus"></i>
+      <span>新增</span>
+    </button>
+    <div class="search-result-list">
+      <nz-table #nzTable [nzAjaxData]="_dataSet" nzShowSizeChanger [nzLoading]="_loading" [nzTotal]="_total" [(nzPageIndex)]="_current"
+        (nzPageIndexChange)="refreshData()" [(nzPageSize)]="_pageSize" (nzPageSizeChange)="refreshData(true)" [nzShowTotal]="true">
+        <thead nz-thead>
+          <tr>
+            <th>序号</th>
+            <th>别名</th>
+            <th>资源名</th>
+            <th>描述</th>
+            <th>禁用</th>
+            <th>创建时间</th>
+            <th>更新时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody nz-tbody>
+          <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+
+            <td nz-td>{{data.id}}</td>
+            <td nz-td>{{data.alias}}</td>
+            <td nz-td>{{data.name}}</td>
+            <td nz-td>{{data.describe}}</td>
+            <td nz-td>{{data.disabled}}</td>
+            <td nz-td>{{data.createTime | date:"yyyy-MM-dd HH:mm"}}</td>
+            <td nz-td>{{data.updateTime | date:"yyyy-MM-dd HH:mm"}}</td>
+            <td nz-td>
+              <span>
+                <nz-popconfirm [nzTitle]="'确认删除？'" (nzOnConfirm)="delete(data)" (nzOnCancel)="cancel()">
+                  <a nz-popconfirm>删除</a>
+                </nz-popconfirm>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</nz-content>

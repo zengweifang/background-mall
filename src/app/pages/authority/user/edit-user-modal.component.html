@@ -1,0 +1,37 @@
+<form nz-form [formGroup]="validateForm" >
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+      <label for="name" nz-form-item-required>用户名</label>
+    </div>
+    <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+      <nz-input [nzSize]="'large'" formControlName="userName" [nzId]="'userName'" [nzDisabled]="_type==0"></nz-input>
+      <div nz-form-explain>用户名不能为空</div>
+    </div>
+  </div>
+  <div nz-form-item nz-row *ngIf="_type!=0">
+    <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+      <label for="name" nz-form-item-required>姓名</label>
+    </div>
+    <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+      <nz-input [nzSize]="'large'" formControlName="name" [nzId]="'name'"></nz-input>
+      <div nz-form-explain>姓名不能为空</div>
+    </div>
+  </div>  
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+      <label for="name" nz-form-item-required>密码</label>
+    </div>
+    <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+      <nz-input [nzSize]="'large'" formControlName="password" [nzId]="'name'" [nzType]="'password'" nzPlaceHolder="密码"></nz-input>
+      <div nz-form-explain>密码不能为空</div>
+    </div>
+  </div>  
+</form>
+<div class="customize-footer">
+  <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="cancel($event)">
+    取消
+  </button>
+  <button nz-button [nzLoading]="isLoading" [nzType]="'primary'" [nzSize]="'large'" (click)="submit()" [disabled]="validateForm.invalid">
+    保存
+  </button>
+</div>

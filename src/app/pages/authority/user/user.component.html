@@ -1,0 +1,55 @@
+<nz-content style="margin:0 16px;">
+  <nz-breadcrumb style="margin:12px 0;">
+    <nz-breadcrumb-item>权限管理</nz-breadcrumb-item>
+    <nz-breadcrumb-item>后台用户管理</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div style="padding:24px;" nz-row class="wgj-content">
+	<div nz-col [nzSpan]="6" class="left-content">
+		<div class="wgj-section">		
+			<div class="wgj-section-header">
+				<span>用户</span>
+			</div>
+			<div class="wgj-section-content">
+				<nz-input [nzType]="'search'" [nzPlaceHolder]="'输入搜索内容'" [(ngModel)]="params.filter.userName" style="width:100%;margin-bottom: 24px;" (nzOnSearch)="getUserList($event)">
+				</nz-input>
+				<ul class="static-height">
+					<li *ngFor="let item of userList" (click)="selItem(item)" [ngClass]="{'active':currentItem.userId==item.userId}">
+						{{item.userName}}
+						<div class="fr">						
+							<a (click)="edit(item)">修改</a>
+							<nz-popconfirm [nzTitle]="'确认删除？'" (nzOnConfirm)="delete(item)" (nzOnCancel)="cancel()">
+	                  			<a nz-popconfirm>删除</a>
+	                		</nz-popconfirm>
+						</div>
+					</li>
+				</ul>
+				<div class="action">
+					<button class="btn-primary" (click)="add()">添加</button>
+				</div>
+				<nz-pagination [(nzPageIndex)]="params.page.currentPage" [nzTotal]="params.page.totalCount" [nzPageSize]="params.page.pageSize" (nzPageIndexChange)="getUserList()"></nz-pagination>
+			</div>	
+		</div>
+	</div>
+	<div nz-col [nzSpan]="18" class="right-content" style="padding-left:12px;">
+		<div class="wgj-section">
+			<div class="fix-area">
+				<div class="fl">
+					<h2>选择{{currentItem.userName}}的权限</h2>
+					<label nz-checkbox [(ngModel)]="selectAll" (ngModelChange)="toggleAll()">全选</label>
+				</div>	
+				<button class="fr" nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="saveAuthData()">保存</button>
+			</div>
+			<div class="scroll-area">
+				<ul>
+					<li *ngFor="let item of authList">
+						<label nz-checkbox [(ngModel)]="item.isSelected">
+							<span>{{item.name}}</span>
+						</label>
+					</li>
+				</ul>
+			</div>
+		</div>	
+	</div>
+  </div>
+  <nz-back-top></nz-back-top>
+</nz-content>

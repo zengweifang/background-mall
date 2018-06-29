@@ -1,0 +1,142 @@
+
+
+
+.gis-saveDrawArea{
+    position:absolute;
+    top: 8px;
+    left: 8px;
+    width:350px;
+    background-color:#fff;
+    .gis-saveDrawArea-header{
+        width: 100%;
+        height: 40px;
+        text-align: left;
+        line-height: 40px;
+        font-size: 14px;
+        color: #62605f;
+        background-color:#fff;
+        border-bottom: 1px solid #efefef;
+        >div{
+            margin-left: 19px;
+            >i{
+                margin-right: 9px;
+            }
+        }
+    }
+
+    .search {
+        padding: 8px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-bottom: 1px solid #efefef;
+        nz-input {
+            width: 60%;
+        }
+    }
+    
+    ul{
+        width: 100%;
+        max-height: 400px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow-y: auto;
+        color: rgb(120,162,255);
+        .selectLi{
+            background-color: rgb(242,246,255);
+            border: 1px solid rgb(201,218,255);
+            .selectLiDiv{
+                font-weight: bold;
+            }
+        }
+    }
+    .addArea-ul{
+        li{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            min-height: 50px;
+            border-bottom: 1px solid #efefef;
+            cursor: pointer;
+            >div:first-of-type{
+                width: 240px;
+                div{
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    div{
+                        width: 140px;
+                        padding: 10px;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                    }
+                    nz-input{
+                        width: 140px;
+                    }
+                }
+            }
+            >div:last-of-type{
+                width: 60px;
+            }
+        }
+        a{
+            text-decoration: none;
+        }
+    }
+    .auditList-ul{
+        li{
+            width: 100%;
+            min-height: 50px;
+            border-bottom: 1px solid #efefef;
+            >div{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                min-height: 50px;
+                justify-content: flex-start;
+                >div{
+                    text-align: center;
+                }
+                .auditList-ul-checkbox{
+                    width: 60px;
+                }
+                .auditList-ul-radio{
+                    width: 60px;
+                }
+                .seizeDiv{
+                    width: 43px;
+                }
+                .auditList-ul-name{
+                    text-align: left;
+                    width: 80%;
+                }
+            }
+        }
+    }
+    .footer{
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .footerBtn{
+            width: 80%;
+            height: 30px;
+        }
+    }
+    .auditFooter{
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .footerBtn{
+            height: 30px;
+        }
+    }
+    
+}

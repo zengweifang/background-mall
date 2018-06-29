@@ -1,0 +1,28 @@
+.section {
+  margin-bottom: 32px;
+  border-bottom: 1px solid #ececec;
+}
+
+.section-header {
+  padding: 5px 24px;
+  background-color: #ececec;
+}
+
+.section-body {
+  padding: 24px;
+}
+
+.travel-result-list {
+    margin-top: 0;
+}
+
+.total {
+    margin-top: 16px;
+    display: inline-block;
+    padding: 10px;
+    background-color: #108ee9;
+}
+
+.total p {
+    color: #fff;
+}

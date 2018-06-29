@@ -1,0 +1,14 @@
+<custom-transfer-list class="transfer-list" [dataSource]="leftDataSource" [ngStyle]="nzListStyle" (filterChange)="handleFilterChange($event)" [ngStyle]="nzListStyle" [showSearch]="nzShowSearch" [searchPlaceholder]="nzSearchPlaceholder" [notFoundContent]="nzNotFoundContent" (handleSelect)="handleLeftSelect($event)" [direction]="'left'" (handleSelectAll)="handleLeftSelectAll($event)">
+
+</custom-transfer-list>
+<div class="transfer-operation">
+    <button nz-button (click)="moveToLeft()" [disabled]="!leftActive" [nzType]="'primary'" [nzSize]="'small'">
+        <i class="anticon anticon-left"></i><span *ngIf="nzOperations[1]">{{ nzOperations[1] }}</span>
+    </button>
+    <button nz-button (click)="moveToRight()" [disabled]="!rightActive" [nzType]="'primary'" [nzSize]="'small'">
+        <i class="anticon anticon-right"></i><span *ngIf="nzOperations[0]">{{ nzOperations[0] }}</span>
+    </button>
+</div>
+<custom-transfer-list class="transfer-list" [dataSource]="rightDataSource" [ngStyle]="nzListStyle" (filterChange)="handleFilterChange($event)" [ngStyle]="nzListStyle" [showSearch]="nzShowSearch" [searchPlaceholder]="nzSearchPlaceholder" [notFoundContent]="nzNotFoundContent" (handleSelect)="handleRightSelect($event)" [direction]="'right'" (handleSelectAll)="handleRightSelectAll($event)">
+
+</custom-transfer-list>

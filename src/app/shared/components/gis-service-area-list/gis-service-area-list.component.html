@@ -1,0 +1,96 @@
+<div class="gis-saveDrawArea">
+  <div class="gis-saveDrawArea-header">
+      <div>
+          <i class="anticon anticon-environment-o"></i>
+          <span>服务区域</span>
+      </div>
+  </div>
+  <div class="search" *ngIf="showSearch">
+      <nz-input [(ngModel)]="_name" (ngModelChange)="modelChange($event)"></nz-input>
+      <button nz-button [nzType]="'primary'" (click)="searchAreaWithKeyword()">搜索</button>
+  </div>
+  <ul class="auditList-ul" *ngIf="!canEdit">
+      <nz-radio-group [(ngModel)]="_selectedItem.id" style="width: 100%">
+        <li *ngFor="let item of _saveDrawArea; let i = index" (click)="selectOneItem(item)" [class.selectLi]="item.showSelectColor" style="cursor: pointer;">
+          <div>
+            <!-- <div class="auditList-ul-checkbox" *ngIf="showCheckbox">
+              <label nz-checkbox [(ngModel)]="toggle.selectAll" [nzIndeterminate]="toggle.indeterminate" (ngModelChange)="toggle.toggleAll(_dataSet)">
+              </label>
+            </div> -->
+            <div class="auditList-ul-radio" *ngIf="showRadio">
+                <label nz-radio [nzValue]="item.id">
+                  
+                </label>
+            </div>
+            <div class="seizeDiv" *ngIf="!showRadio && !showCheckbox"></div>
+            <div class="auditList-ul-name" [class.selectLiDiv]="item.showSelectColor">
+                <span *ngIf="showStatus">{{item.status | gisStatus}}</span><span style="font-size: 14px">{{item.name}}</span>
+            </div>
+          </div>
+        </li>
+      </nz-radio-group>
+  </ul>
+  <ul class="addArea-ul" *ngIf="canEdit && (_saveDrawArea.length > 0 || _addSaveDrawArea.length > 0)">
+      <ng-container *ngFor="let item of _saveDrawArea;let i = index">
+        <li (click)="selectOneItem(item)" *ngIf="!item.deleteStatus" [class.selectLi]="item.showSelectColor">
+            <div class="addArea-div">
+                <div *ngIf="item.showInput">   
+                    <nz-input [(ngModel)]="item.name"></nz-input>
+                    <a (click)="showChanged(item)">
+                        <span style="color: #62605f">保存</span>
+                    </a>
+                </div>
+                <div *ngIf="!item.showInput">
+                    <div [class.selectLiDiv]="item.showSelectColor">{{item.name}}</div>
+                    <a (click)="showChanged(item)">
+                        <i class="zmdi zmdi-border-color" style="color: #bab6b1"></i>
+                        <span style="color: #62605f">编辑名称</span>
+                    </a>
+                </div>
+            </div>
+            <div class="addArea-div">
+                <button *ngIf="!item.showInput" nz-button (click)="deleteArea(item,i,$event)">删除</button>
+            </div>
+        </li>
+      </ng-container>
+      <ng-container *ngFor="let item of _addSaveDrawArea;let i = index">
+        <li (click)="selectOneItem(item)" *ngIf="!item.deleteStatus" [class.selectLi]="item.showSelectColor">
+            <div class="addArea-div">
+                <div *ngIf="item.showInput">   
+                    <nz-input [(ngModel)]="item.name"></nz-input>
+                    <a (click)="showChanged(item)">
+                        <span style="color: #62605f">保存</span>
+                    </a>
+                </div>
+                <div *ngIf="!item.showInput">
+                    <div [class.selectLiDiv]="item.showSelectColor">{{item.name}}</div>
+                    <a (click)="showChanged(item)">
+                        <i class="zmdi zmdi-border-color" style="color: #bab6b1"></i>
+                        <span style="color: #62605f">编辑名称</span>
+                    </a>
+                </div>
+            </div>
+            <div class="addArea-div">
+                <button *ngIf="!item.showInput" nz-button (click)="deleteArea(item,i,$event)">删除</button>
+            </div>
+        </li>
+      </ng-container>
+  </ul>
+  <div *ngIf="_saveDrawArea.length <= 0 && !canEdit" style="height: 40px;text-align:center;line-height: 40px;font-size: 14px">
+      暂时没有服务区域
+  </div>
+  <div style="padding: 10px;" *ngIf="_saveDrawArea.length > 0 && showPageIndex">
+    <nz-pagination [nzPageIndex]="_pageIndex" (nzPageIndexChange)="pageIndexChange($event)" (nzPageSizeChange)="pageSizeChange($event)" [nzTotal]="_totalCount" nzShowSizeChanger [nzPageSize]="_pageSize" [nzSize]="'small'" style="text-align: right;"></nz-pagination>
+  </div>
+  <div class="footer" *ngIf="canEdit">
+      <button class="footerBtn" nz-button [nzType]="'primary'" (click)="addArea()">添加服务区域</button>
+  </div>
+  <div class="auditFooter" *ngIf="showAuditBtn && _saveDrawArea.length > 0">
+      <button class="footerBtn" nz-button [nzType]="'primary'" (click)="pass()" [nzLoading]="_loading">通过</button>
+      <button class="footerBtn" nz-button (click)="notPass()">不通过</button>
+  </div>
+  <!-- <div class="auditFooter" *ngIf="showDeleteBtn && _saveDrawArea.length > 0">
+      <button class="footerBtn" nz-button [nzType]="'primary'" (click)="delete()">删除审核记录</button>
+  </div> -->
+  
+</div>

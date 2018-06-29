@@ -1,0 +1,119 @@
+<nz-content style="margin:0 16px;position: relative;">
+  <nz-breadcrumb style="margin:12px 0;">
+    <nz-breadcrumb-item>编辑专题</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div class="goback clearfix" style="position: absolute;display: inline-block;right:0;top:-5px;">
+      <button (click)="goback()" style="float: right;margin-bottom: 24px;" nz-button>返回</button>
+  </div>
+  <div style="padding:24px; background: #fff; min-height: 360px;">
+    <div class="panel">
+      <div class="panel-heading">
+        <span>基本信息</span>
+      </div>
+      <div class="panel-body">
+        <form nz-form [formGroup]="validateForm">
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label nz-form-item-required for="title">标题</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['title']">
+              <nz-input [(ngModel)]="_params.title" formControlName="title" [nzSize]="'large'" [nzPlaceHolder]="'2-50个字符！'"></nz-input>
+              <div nz-form-explain *ngIf="getFormControl('title').dirty && getFormControl('title').hasError('required')">2-50个字符！</div>
+              <div nz-form-explain *ngIf="getFormControl('title').dirty && (getFormControl('title').hasError('minlength') || getFormControl('title').hasError('maxlength'))">2-50个字符！</div>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+              <div nz-form-label nz-col [nzSpan]="4">
+                <label nz-form-item-required for="title">图片</label>
+              </div>
+              <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['iconImgUrl']">
+                <nz-upload [nzAction]="uploadUrl" nzListType="picture-card" [(nzFileList)]="thumbUrlFileList" [nzShowButton]="thumbUrlFileList.length < 1"
+                  [nzPreview]="handlePreview" (nzChange)="imageUpdateStateChange($event)">
+                  <i class="anticon anticon-plus"></i>
+                  <div class="ant-upload-text">Upload</div>
+                </nz-upload>
+                <div nz-form-explain>上传图片不超过1M，尺寸为750*272px</div>
+                <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible=false">
+                  <ng-template #modalContent>
+                    <img [src]="previewImage" [ngStyle]="{ 'width': '100%' }" />
+                  </ng-template>
+                </nz-modal>
+              </div>
+            </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label for="remark">备注</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['remark']">
+              <nz-input [(ngModel)]="_params.remark" formControlName="remark" [nzSize]="'large'" [nzId]="'remark'" [nzPlaceHolder]="'不超过50个字符！'"></nz-input>
+              <div nz-form-explain *ngIf="getFormControl('remark').dirty && (getFormControl('remark').hasError('maxlength'))">不超过50个字符！</div>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+              <div nz-form-label nz-col [nzSpan]="4">
+                <label nz-form-item-required for="_dateRange">生效起止时间</label>
+              </div>
+              <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['_dateRange']">
+                  <nz-rangepicker [(ngModel)]="_dateRange" formControlName="_dateRange" nzShowTime [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-rangepicker>
+              </div>
+            </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label nz-form-item-required  for="index">排序</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['index']">
+              <nz-input-number
+                [(ngModel)]="_params.index" name="index" id="index"
+                [nzMin]="0" [nzMax]="100" [nzStep]="1" formControlName="index" [nzPlaceHolder]="'整数，数字越小越靠前！'"></nz-input-number>
+              <!-- <textarea nz-input [(ngModel)]="_params.index" id="index" formControlName="index" name="index" [nzAutosize]="true" placeholder="限300个字符，点击公告标题进入到公告内容页"></textarea> -->
+              <div nz-form-explain *ngIf="getFormControl('index').dirty && getFormControl('index').hasError('required')">整数，数字越小越靠前！</div>
+              <div nz-form-explain *ngIf="getFormControl('index').dirty && (getFormControl('index').hasError('maxlength'))">整数，数字越小越靠前！</div>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label nz-form-item-required for="title">可见区域</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14">
+                <div style="height: 500px; width: 250px; overflow-y: scroll;background-color:#fff;text-align: left;border: 1px solid #ccc;">
+                    <custom-cities-select [nodes]="nodes" [isMoreLevel]="true" (csSelectedCites)="csSelectedCites($event)"></custom-cities-select>
+                  </div>
+            </div>
+          </div>
+
+          <div nz-row nz-form-item>
+              <div nz-form-label nz-col [nzSpan]="4">
+                <label nz-form-item-required for="url">专题链接</label>
+              </div>
+              <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['url']">
+                  <nz-input [(ngModel)]="_params.url" formControlName="url" [nzSize]="'large'" [nzId]="'url'" [nzPlaceHolder]="'2-50个字符！'"></nz-input>
+                  <div nz-form-explain *ngIf="getFormControl('url').dirty && getFormControl('url').hasError('required')">2-50个字符！</div>
+                  <div nz-form-explain *ngIf="getFormControl('url').dirty && (getFormControl('url').hasError('minlength') || getFormControl('title').hasError('maxlength'))">2-50个字符！</div>
+              </div>
+            </div>
+          <div nz-row nz-form-item>
+              <div nz-form-label nz-col [nzSpan]="4">
+                <label nz-form-item-required for="type">类型</label>
+              </div>
+              <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['type']">
+                <nz-radio-group [(ngModel)]="_params.type"  formControlName="type" formControlName="type">
+                  <label *ngFor="let item of types" nz-radio [nzValue]="item.id">{{item.name}}</label>
+                </nz-radio-group>
+              </div>
+            </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14">
+              <div style="float: right;">
+                  <button [nzLoading]="_loading" [disabled]="disabledButton()" (click)="save(1)" nz-button>保存为草稿</button>
+                  <button [nzLoading]="_loading" [disabled]="disabledButton()" (click)="save(2)" nzType="primary" nz-button>发布</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</nz-content>

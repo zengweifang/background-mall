@@ -1,0 +1,16 @@
+<nz-content style="margin:0 16px;">
+  <nz-breadcrumb style="margin:12px 0;">
+    <nz-breadcrumb-item>添加类别</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div style="padding:24px; background: #fff; min-height: 360px;">
+    <nz-cascader
+      [(ngModel)]="_value"
+      (nzChange)="_console($event)"
+      (nzLoad)="loadData($event)">
+    </nz-cascader>
+    <div class="next">
+      <button nz-button (click)="next()" [nzType]="'primary'" [nzSize]="'small'" [disabled]="!enabledNextButton">下一步</button>
+    </div>
+  </div>
+  
+</nz-content>

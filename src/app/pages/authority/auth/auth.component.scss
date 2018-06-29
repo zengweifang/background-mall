@@ -1,0 +1,36 @@
+.wgj-section-content{
+	background-color:#fff;
+
+	li{
+		height:35px;
+		line-height:35px;
+		border-bottom:1px solid #dcdcdc;
+		cursor:pointer;
+	}
+	li:last-child{
+		border:none;
+	}
+	.action{
+		text-align:center;
+		margin-bottom:30px;
+	}
+	.action button{
+		border-radius:50%;
+		border:none;
+		color:#fff;
+		width:40px;
+		height:40px;
+		line-height:40px;
+		text-align:center;
+		margin:0 10px;
+	}
+	.btn-primary{
+		background-color:#108ee9;
+	}
+	.btn-danger{
+		background-color:#f44336;
+	}
+	.btn-accent{
+		background-color:#00bcd4;
+	}
+}

@@ -1,0 +1,139 @@
+<div>
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="_submitForm()">
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label for="address" nz-form-item-required>
+                    <span>房源地址</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="validateForm.controls['address']">
+                <nz-input [nzSize]="'large'" formControlName="address" [nzId]="'address'"  [(ngModel)]="housingInfo.address"></nz-input>
+                <div nz-form-explain *ngIf="getFormControl('address').dirty&&getFormControl('address').hasError('required')">请填写房源地址</div>
+                <div nz-form-explain *ngIf="getFormControl('address').dirty&&getFormControl('address').hasError('address')">长度1~128个字符</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label nz-form-item-required>
+                    <span>户型</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="3" [nzXs]="24" nzHasFeedback>
+                <nz-select formControlName="bedroomNum" [nzSize]="'large'" [(ngModel)]="housingInfo.bedroomNum">
+                    <nz-option [nzLabel]="areasNumber" [nzValue]="areasNumber" *ngFor="let areasNumber of areasNumbers"></nz-option>
+                </nz-select>
+            </div>
+            <div nz-form-control nz-col [nzSm]="1" [nzXs]="24">
+                <span>&nbsp;室</span>
+            </div>
+            <div nz-form-control nz-col [nzSm]="3" [nzXs]="24" nzHasFeedback>
+                <nz-select formControlName="livingroomNum" [nzSize]="'large'"  [(ngModel)]="housingInfo.livingroomNum">
+                    <nz-option [nzLabel]="areasNumber" [nzValue]="areasNumber" *ngFor="let areasNumber of areasNumbers"></nz-option>
+                </nz-select>
+            </div>
+            <div nz-form-control nz-col [nzSm]="1" [nzXs]="24">
+                <span>&nbsp;厅</span>
+            </div>
+            <div nz-form-control nz-col [nzSm]="3" [nzXs]="24" nzHasFeedback>
+                <nz-select formControlName="bathroomNum" [nzSize]="'large'" [(ngModel)]="housingInfo.bathroomNum">
+                    <nz-option [nzLabel]="areasNumber" [nzValue]="areasNumber" *ngFor="let areasNumber of areasNumbers"></nz-option>
+                </nz-select>
+            </div>
+            <div nz-form-control nz-col [nzSm]="1" [nzXs]="24">
+                <span>&nbsp;卫</span>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label for="floorArea">套内面积(㎡)</label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="validateForm.controls['floorArea']">
+                <nz-input [nzSize]="'large'" formControlName="floorArea" [nzId]="'floorArea'" [(ngModel)]="housingInfo.floorArea"></nz-input>
+                <div nz-form-explain *ngIf="getFormControl('floorArea').dirty&&getFormControl('floorArea').hasError('floorArea')">请填写正确套内面积</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label for="constructionArea">
+                    <span>建筑面积(㎡)</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="validateForm.controls['constructionArea']">
+                <nz-input [nzSize]="'large'" formControlName="constructionArea" [nzId]="'constructionArea'" [(ngModel)]="housingInfo.constructionArea"></nz-input>
+                <div nz-form-explain *ngIf="getFormControl('constructionArea').dirty&&getFormControl('constructionArea').hasError('floorArea')">请填写正确建筑面积</div>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label for="floors">
+                    <span>是否复式</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <nz-radio-group formControlName="floors" [(ngModel)]="housingInfo.floors">
+                    <label nz-radio [nzValue]="1">
+                        <span>否</span>
+                    </label>
+                    <label nz-radio [nzValue]="2">
+                        <span>是</span>
+                    </label>
+                </nz-radio-group>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label for="publicBathroomNum" nz-form-item-required>
+                    <span>公共厕所</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <nz-select formControlName="publicBathroomNum" [nzSize]="'large'" [(ngModel)]="housingInfo.publicBathroomNum">
+                    <nz-option [nzLabel]="areasNumber" [nzValue]="areasNumber" *ngFor="let areasNumber of areasNumbers"></nz-option>
+                </nz-select>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label for="totalPublicArea" nz-form-item-required>
+                    <span>公区数量</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <nz-select formControlName="totalPublicArea" [nzSize]="'large'" [(ngModel)]="housingInfo.totalPublicArea">
+                    <nz-option [nzLabel]="areasNumber" [nzValue]="areasNumber" *ngFor="let areasNumber of areasNumbers"></nz-option>
+                </nz-select>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label for="apartmentLockCode" nz-form-item-required>
+                    <span>密码锁平台</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                <nz-select formControlName="apartmentLockCode" [nzSize]="'large'" [(ngModel)]="housingInfo.apartmentLockCode">
+                    <nz-option [nzLabel]="lock.label" [nzValue]="lock.id" *ngFor="let lock of lockPlatforms"></nz-option>
+                </nz-select>
+            </div>
+        </div>
+        <div nz-form-item nz-row>
+            <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                <label for="remark">
+                    <span>备注</span>
+                </label>
+            </div>
+            <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="validateForm.controls['remark']">
+                <nz-input [nzSize]="'large'" formControlName="remark" [nzId]="'remark'" [(ngModel)]="housingInfo.remark"></nz-input>
+                <div nz-form-explain *ngIf="getFormControl('remark').dirty&&getFormControl('remark').hasError('remark')">长度不超过128个字符</div>
+            </div>
+        </div>
+    </form>
+    <div class="customize-footer">
+        <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="emitDataOutside($event)" [nzLoading]="isConfirmLoading" [disabled]="!validateForm.valid">
+            确 定
+        </button>
+        <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+            取 消
+        </button>
+    </div>
+</div>

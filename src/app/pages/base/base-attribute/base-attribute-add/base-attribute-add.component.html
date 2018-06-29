@@ -1,0 +1,92 @@
+<nz-content style="margin:0 16px;">
+	<nz-breadcrumb style="margin:12px 0;">
+		<nz-breadcrumb-item>基数数据</nz-breadcrumb-item>
+		<nz-breadcrumb-item>属性小组</nz-breadcrumb-item>
+		<nz-breadcrumb-item>新增</nz-breadcrumb-item>
+	</nz-breadcrumb>
+	<div style="padding:24px; background: #fff; min-height: 360px;">
+
+		<nz-input name="name" [nzType]="'text'" [nzPlaceHolder]="'属性小组名称'" [(ngModel)]="attributeGroup.name" required>
+			<ng-template #prefix>
+				<i class="anticon anticon-user"></i>
+			</ng-template>
+		</nz-input>
+		<nz-table #nzTable [(nzDataSource)]="attributeGroup.attributeDefineDTOList" [nzIsPagination]="false" [nzBordered]="true">
+			<thead nz-thead>
+				<tr>
+					<th nz-th>
+						<span>序号</span>
+					</th>
+					<th nz-th>
+						<span>是否必填</span>
+					</th>
+					<th nz-th>
+						<span>填写对象</span>
+					</th>
+					<th nz-th>
+						<span>字段／标题</span>
+					</th>
+					<th nz-th>
+						<span>字段类型</span>
+					</th>
+					<th nz-th>
+						<span>提示或选项</span>
+					</th>
+					<th nz-th>
+						<span>操作</span>
+						<a (click)="add()">（新增一个字段）</a>
+					</th>
+				</tr>
+			</thead>
+			<tbody nz-tbody>
+				<tr nz-tbody-tr *ngFor="let data of nzTable.data;let i = index">
+					<td nz-td>{{i+1}}</td>
+					<td nz-td>
+						<label nz-checkbox [(ngModel)]="data.required">
+							<span>必填</span>
+						</label>
+					</td>
+					<td nz-td>
+						<nz-select style="width: 120px;" [(ngModel)]="data.scope" nzAllowClear>
+							<nz-option *ngFor="let scope of metaData.scopes" [nzLabel]="scope.name" [nzValue]="scope.id">
+							</nz-option>
+						</nz-select>
+					</td>
+					<td nz-td>
+						<div>
+							<nz-input name="title" [(ngModel)]="data.title" [nzPlaceHolder]="'请输入字段或者标题'" required></nz-input>
+						</div>
+					</td>
+					<td nz-td>
+						<nz-select style="width: 120px;" [(ngModel)]="data.attrType" nzAllowClear>
+							<nz-option *ngFor="let attrType of metaData.attrTypes" [nzLabel]="attrType.name" [nzValue]="attrType.id">
+							</nz-option>
+						</nz-select>
+					</td>
+					<td nz-td>
+						<a *ngIf="data.attrType==0" (click)="showModalForComponent(data)">文本约束设置</a>
+						<a href="" *ngIf="data.attrType==1">菜单设置</a>
+						<div *ngIf="data.attrType==2">
+							<nz-select style="width: 120px;" [(ngModel)]="data.timeScope" nzAllowClear>
+								<nz-option *ngFor="let timeScope of metaData.timeScopes" [nzLabel]="timeScope.name" [nzValue]="timeScope.id">
+								</nz-option>
+							</nz-select>
+						</div>
+					</td>
+					<td nz-td>
+						<span>
+							<nz-popconfirm [nzTitle]="'确定要删除这个任务吗？'" (nzOnConfirm)="confirm(i)" (nzOnCancel)="cancel()">
+								<a nz-popconfirm>删除</a>
+							</nz-popconfirm>
+						</span>
+					</td>
+				</tr>
+			</tbody>
+		</nz-table>
+		<div style="margin-top: 10px;text-align: center;">
+			<button nz-button [nzType]="'primary'" (click)="save()">
+				<span>保存</span>
+			</button>
+		</div>
+	</div>
+</nz-content>

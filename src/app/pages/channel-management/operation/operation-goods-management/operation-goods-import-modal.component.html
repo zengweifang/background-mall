@@ -1,0 +1,21 @@
+<div>
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSm]="2" [nzXs]="24">
+      <label for="alias" nz-form-item-required>将</label>
+    </div>
+    <nz-select style="width: 150px;" nzAllowClear [nzPlaceHolder]="'请输入渠道名'" [(ngModel)]="selectedOption" [nzShowSearch]="true">
+      <nz-option *ngFor="let option of allChannelList" [nzLabel]="option.name" [nzValue]="option.id">
+      </nz-option>
+    </nz-select>
+    <span>的所有商品及映射关系添加到当前渠道</span>
+    <span style="color:blue;">({{_channelName}})</span>
+  </div>
+  <div class="customize-footer">
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+      取消
+    </button>
+    <button nz-button [disabled]="!selectedOption" [nzLoading]="isLoading" [nzType]="'primary'" [nzSize]="'large'" (click)="_submitForm($event)">
+      一键导入
+    </button>
+  </div>
+</div>

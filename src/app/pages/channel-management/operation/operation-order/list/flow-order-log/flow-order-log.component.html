@@ -1,0 +1,315 @@
+<nz-content style="margin:0 16px;">
+  <nz-breadcrumb style="margin:12px 0;">
+    <nz-breadcrumb-item>渠道订单管理</nz-breadcrumb-item>
+    <nz-breadcrumb-item>流转记录</nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="id">{{id}}</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div style="padding:24px; background: #fff; min-height: 360px;">
+    <div class="back">
+      <button nz-button class="back-btn" (click)="goBack()">
+        <span>返回</span>
+      </button>
+    </div>
+    <div nz-row class="section">
+      <div nz-col [nzSpan]="24" class="section-header">
+        <h3 class="section-title">派单/抢单</h3>
+      </div>
+      <div nz-col [nzSpan]="24" class="section-body">
+        <div class="tip">
+          <span>有
+            <span class="comn-m-color number">{{prividersNum.providers}}</span> 家供应商正在抢单，已重新发起
+            <span class="comn-m-color number">{{prividersNum.reorder}}</span> 次</span>
+        </div>
+        <div class="err" *ngIf="logData.errLog && logData.errLog.length">
+          <nz-table #errTable [nzSize]="'small'" [nzAjaxData]="logData.errLog ? logData.errLog : []" [nzIsPagination]="false" nzBordered>
+            <thead nz-thead>
+              <tr>
+                <th>错误原因</th>
+                <th>供应商</th>
+              </tr>
+            </thead>
+            <tbody nz-tbody>
+              <ng-container *ngFor="let logitem of errTable.data">
+                <tr nz-tbody-tr>
+                  <td nz-td>{{logitem.cancelReason}}</td>
+                  <td nz-td>{{logitem.providerNames}}</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </nz-table>
+        </div>
+        <div class="operations">
+          <button nz-button class="operations-btn" [nzType]="'primary'" (click)="newPatchResendOrders(logData)" [disabled]="!_indeterminate && !_allChecked">
+            <span>批量重新发起</span>
+          </button>
+          <button nz-button class="operations-btn" [nzType]="'primary'" (click)="toCancelAutoSendOrder()" [disabled]="(logData.virtualOrderStatus == 23 && logData.canOperate) || logData.virtualOrderStatus != 23">
+            <span>取消自动派单／抢单</span>
+          </button>
+          <button nz-button class="operations-btn" [nzType]="'primary'" (click)="artificialOrder()" [disabled]="!((logData.virtualOrderStatus == 23 || logData.virtualOrderStatus == 31 || logData.virtualOrderStatus == 425) && logData.canOperate)">
+            <span>人工派单</span>
+          </button>
+          <button nz-button class="operations-btn" [nzType]="'primary'" (click)="toQuickCancelOrder()" *ngIf="channelName != 'dianping'"
+            [disabled]="(logData.virtualOrderStatus == 23 && !logData.canOperate) || logData.virtualOrderStatus != 23">
+            <span>快捷取消渠道订单</span>
+          </button>
+          <button nz-button class="operations-btn" [nzType]="'primary'" (click)="showCanfirmByType(3)" *ngIf="channelName == 'dianping'"
+            [disabled]="prividersNum.providers>0 && !dianpingData.enable">
+            <span>完成订单</span>
+          </button>
+          <button nz-button class="operations-btn cancel-order" [nzType]="'primary'" (click)="showCanfirmByType(2)" [disabled]="logData.virtualOrderStatus!=31 && logData.virtualOrderStatus!=425">
+            <span>取消订单，重新流转</span>
+          </button>
+          <button nz-button class="operations-btn" [nzType]="'primary'" (click)="showCanfirmByType(1)" [disabled]="logData.virtualOrderStatus!=31 && logData.virtualOrderStatus!=425">
+            <span>取消订单，不派单</span>
+          </button>
+        </div>
+        <div class="search-result-list">
+          <nz-table #nzTable [nzSize]="'middle'" [nzAjaxData]="logData.logs ? logData.logs : []" [nzIsPagination]="false" [nzLoading]="loading"
+            (nzDataChange)="_displayDataChange($event)" nzBordered>
+            <thead nz-thead>
+              <tr>
+                <th nz-th nzCheckbox>
+                  <label nz-checkbox [disabled]="!(logData.virtualOrderStatus == 23 || logData.virtualOrderStatus == 31 || logData.virtualOrderStatus == 425)"
+                    [(ngModel)]="_allChecked" [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
+                  </label>
+                </th>
+                <th>发起时间</th>
+                <th>供应商</th>
+                <th>
+                  <span>接单耗时</span>
+                </th>
+                <th>
+                  <span>订单状态</span>
+                </th>
+                <th>
+                  <span>取消原因</span>
+                </th>
+                <th>
+                  <span>操作</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody nz-tbody>
+              <ng-container *ngFor="let logitem of nzTable.data">
+                <ng-container *ngFor="let data of logitem.orderLogs; index as i">
+                  <tr nz-tbody-tr>
+                    <td nz-td [nzCheckbox]="true">
+                      <label nz-checkbox [nzDisabled]="data.disabled" [(ngModel)]="data.checked" (ngModelChange)="_refreshStatus($event)">
+                      </label>
+                    </td>
+                    <td nz-td [attr.rowspan]="i==0?logitem.orderLogs.length:1" *ngIf="i == 0">
+                      <p>{{data.createTime | date:"yyyy-MM-dd HH:mm:ss"}}</p>
+                      <p *ngIf="logitem.orderType === 1">(重新发起)</p>
+                    </td>
+                    <td nz-td>{{data.providerName}}</td>
+                    <td nz-td>{{data.operationTime | date: 'mm:ss'}}</td>
+                    <td nz-td>{{data.statusName}}</td>
+                    <td nz-td>{{data.reason}}</td>
+                    <td nz-td>
+                      <span *ngIf="(data.status !== 23) && (((logData.virtualOrderStatus == 23 || logData.virtualOrderStatus == 31 || logData.virtualOrderStatus == 425) && data.reorder))">
+                        <a (click)="newResendOrders(data)">重新发起</a>
+                      </span>
+                      <span style="color:red" *ngIf="data.status === 23">已发起</span>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+    <div nz-row class="section" *ngIf="logData.orderInfo && logData.orderInfo.length">
+      <div nz-col [nzSpan]="24" class="section-header">
+        <h3 class="section-title">人工派单记录</h3>
+      </div>
+      <div nz-col [nzSpan]="24" class="section-body">
+        <nz-table #orderInfoTable [nzAjaxData]="logData.orderInfo ? logData.orderInfo : []" [nzIsPagination]="false" (nzDataChange)="_displayDataChange($event)"
+          nzBordered>
+          <thead nz-thead>
+            <tr>
+              <th>商品名称</th>
+              <th>订单金额</th>
+              <th>
+                <span>数量</span>
+              </th>
+              <th>
+                <span>买家</span>
+              </th>
+              <th>
+                <span>服务信息</span>
+              </th>
+              <th>
+                <span>所属供应商和店铺</span>
+              </th>
+              <th>
+                <span>订单状态／流程</span>
+              </th>
+              <th>
+                <span>提交时间</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody nz-tbody>
+            <ng-container *ngFor="let oItem of orderInfoTable.data">
+              <tr nz-tbody-tr>
+                <td nz-td>{{oItem.goodName}}</td>
+                <td nz-td>{{oItem.price}}</td>
+                <td nz-td>{{oItem.count}}</td>
+                <td nz-td>
+                  <div>{{oItem.customerName}}</div>
+                  <div>{{oItem.phone}}</div>
+                  <div>{{oItem.address}}</div>
+                </td>
+                <td nz-td>
+                  <div *ngFor="let item of oItem.attributeList">
+                    {{item.title}} :
+                    <span *ngIf="item.attrType != 2">{{item.value}}</span>
+                    <span *ngIf="item.attrType == 2">{{item.value | date : 'yyyy-MM-dd HH:mm:ss'}}</span>
+                  </div>
+                </td>
+                <td nz-td>
+                  <div>{{oItem.providerName}}</div>
+                  <div>店铺:{{oItem.storeName}}</div>
+                </td>
+                <td nz-td>{{oItem.statusName}}</td>
+                <td nz-td>{{oItem.createTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+    <span id="realGoods"></span>
+    <div nz-row class="section" *ngIf="isShowRealGoods">
+      <div nz-col [nzSpan]="24" class="section-header">
+        <h3 class="section-title">选择真实商品</h3>
+      </div>
+      <div nz-col [nzSpan]="24" class="section-body">
+        <div class="check-location">
+          <label [attr.for]="checkLocation">校验范围</label>
+          <nz-switch [(ngModel)]="checkLocation" (ngModelChange)="turn($event)">
+            <span checked>开</span>
+            <span unchecked>关</span>
+          </nz-switch>
+        </div>
+        <div>
+          <nz-table #realGoodsTable [nzAjaxData]="realGoodsList" nzShowSizeChanger [nzLoading]="_loading" [nzTotal]="_total" [(nzPageIndex)]="params.page.currentPage"
+            (nzPageIndexChange)="getProvider()" [(nzPageSize)]="params.page.pageSize" (nzPageSizeChange)="getProvider(true)"
+            [nzShowTotal]="true">
+            <thead nz-thead>
+              <tr>
+                <th nz-th>商品图片</th>
+                <th nz-th>
+                  <span>商品名称</span>
+                  <nz-dropdown [nzTrigger]="'click'" [nzClickHide]="false">
+                    <!-- 
+                      过滤用于搜索（设计缺陷）：
+                      1.搜索条件看不到
+                      2.修改搜索条件挨个点一次（要不添加个重置按钮？）
+                      3.以前可以连续输入多个搜索条件点击搜索，现在输一个条件点一次搜索（如改成监听model改变立即搜索，会增加不必要的网络请求，
+                        每次model改变触发搜索，页面table渲染一次，如果搜索类似订单等缓慢接口...）
+                    -->
+                    <i class="anticon anticon-search" nz-dropdown></i>
+                    <div nz-dropdown-custom class="custom-filter-dropdown">
+                      <nz-input [nzPlaceHolder]="'Search name'" [(ngModel)]="params.goodsName" (ngModelChange)="search()"></nz-input>
+                      <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+                    </div>
+                  </nz-dropdown>
+                </th>
+                <th nz-th>
+                  <span>商品品类</span>
+                  <nz-dropdown [nzTrigger]="'click'" [nzClickHide]="false">
+                    <!-- 过滤用于搜索 -->
+                    <i class="anticon anticon-search" nz-dropdown></i>
+                    <div nz-dropdown-custom class="custom-filter-dropdown">
+                      <nz-input [nzPlaceHolder]="'Search name'" [(ngModel)]="params.goodsTypeName"></nz-input>
+                      <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+                    </div>
+                  </nz-dropdown>
+                </th>
+                <th nz-th>售价</th>
+                <th nz-th>库存</th>
+                <th nz-th>
+                  <span>所属店铺</span>
+                  <nz-dropdown [nzTrigger]="'click'" [nzClickHide]="false">
+                    <!-- 过滤用于搜索 -->
+                    <i class="anticon anticon-search" nz-dropdown></i>
+                    <div nz-dropdown-custom class="custom-filter-dropdown">
+                      <nz-input [nzPlaceHolder]="'Search name'" [(ngModel)]="params.storeName"></nz-input>
+                      <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+                    </div>
+                  </nz-dropdown>
+                </th>
+                <th nz-th>
+                  <span>所属供应商</span>
+                  <nz-dropdown [nzTrigger]="'click'" [nzClickHide]="false">
+                    <!-- 过滤用于搜索 -->
+                    <i class="anticon anticon-search" nz-dropdown></i>
+                    <div nz-dropdown-custom class="custom-filter-dropdown">
+                      <nz-input [nzPlaceHolder]="'Search name'" [(ngModel)]="params.providerName"></nz-input>
+                      <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+                    </div>
+                  </nz-dropdown>
+                </th>
+                <th nz-th>操作</th>
+              </tr>
+            </thead>
+            <tbody nz-tbody>
+              <tr nz-tbody-tr *ngFor="let data of realGoodsTable.data">
+                <td nz-td>
+                  <img src="{{data.imageUrl}}" alt="{{data.goodsName}}" width="40px" height="40px">
+                </td>
+                <td nz-td>{{data.goodName}}</td>
+                <td nz-td>
+                  <span>{{data.goodTypeName}}</span>
+                  <nz-tooltip (nzVisibleChange)="showTip($event, data)" [nzPlacement]="'topRight'" [nzTitle]="cateTip">
+                    <i nz-tooltip class="anticon anticon-exclamation-circle-o"></i>
+                  </nz-tooltip>
+                </td>
+                <td nz-td>￥{{data.price}}</td>
+                <td nz-td>{{data.quantity}}</td>
+                <td nz-td>{{data.storeName}}</td>
+                <td nz-td>{{data.providerName}}</td>
+                <td nz-td>
+                  <span *ngIf="data.goodsTypeMatch">
+                    <a (click)="placeOrder(data)">立即下单</a>
+                  </span>
+                  <span *ngIf="!data.goodsTypeMatch">
+                    <span style="color:#606060;font-size:11px;">与虚拟商品品类不一致</span>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+    <div nz-row class="section" *ngIf="channelName == 'dianping'">
+      <div nz-col [nzSpan]="24" class="section-header">
+        <h3 class="section-title">大众点评</h3>
+      </div>
+      <div nz-col [nzSpan]="24" class="section-body">
+        <div class="">
+          <div class="" style="margin : 10px 0">
+            <div class="col-lg-2 all-padding-0 flowOrd-font">点评订单状态：
+              <span>{{dianpingData ? dianpingData.status : ''}}</span>
+            </div>
+            <div class="col-lg-2 all-padding-0 flowOrd-font">点评实付金额：
+              <span>{{dianpingData ? dianpingData.price : ''}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <div class="" style="margin : 10px 0">
+            <div class="" style="color:red;">注意：避免发生重复退款，请先确认点评订单完成后，再线下退款。</div>
+            <div class="">用户什么时候能取消订单？</div>
+            <div>1. 验证状态，仅 “待支付,已支付,技师出发,待服务方确认完成,服务方已确认”这几种状态，可以取消</div>
+            <div>2. 验证时间，服务开始时间以后，不可取消</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nz-back-top></nz-back-top>
+</nz-content>

@@ -1,0 +1,226 @@
+<nz-content style="margin:0 16px;">
+  <nz-breadcrumb style="margin:12px 0;">
+    <nz-breadcrumb-item>渠道管理</nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="channelName">运营</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{channelName ? '订单管理' : '渠道订单管理'}}</nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="channelName">{{channelName}}</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div style="padding:24px; background: #fff; min-height: 360px;">
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" [nzSelectedIndex]="selectedTabIndex">
+      <nz-tab (nzClick)="orderTypeChange(tab)" [nzDisabled]="_loading" *ngFor="let tab of tabs">
+        <ng-template #nzTabHeading>{{tab.tabName}}</ng-template>
+        <span>
+          <form nz-form [formGroup]="validateForm" class="ant-advanced-search-form">
+            <div nz-row [nzGutter]="10">
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="goodName">名称</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-input [nzSize]="'large'" [(ngModel)]="goodName" formControlName="goodName"></nz-input>
+                  </div>
+                </div>
+              </div>
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="orderId">订单号</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-input [nzSize]="'large'" [(ngModel)]="orderId" formControlName="orderId"></nz-input>
+                  </div>
+                </div>
+              </div>
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="selectedStatusTypeOption">订单状态</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-select style="width: 120px;" [(ngModel)]="selectedStatusTypeOption" formControlName="selectedStatusTypeOption" [nzPlaceHolder]="'订单状态'">
+                      <nz-option *ngFor="let option of serviceOrderStatuses" [nzLabel]="option.orderStatusName" [nzValue]="option.orderStatusType">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+              </div>
+              <!-- <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                        <div nz-form-item nz-row>
+                          <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                            <label [attr.for]="statusType">订单类型</label>
+                          </div>
+                          <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                            <nz-select style="width: 120px;" (nzOpenChange)="orderTypeChange($event)" [(ngModel)]="orderType" formControlName="orderType"
+                              [nzPlaceHolder]="'订单类型'">
+                              <nz-option *ngFor="let option of orderTypeOptions" [nzLabel]="option.label" [nzValue]="option.value">
+                              </nz-option>
+                            </nz-select>
+                          </div>
+                        </div>
+                      </div> -->
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="startDate">开始时间</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-datepicker formControlName="startDate" style="width: 40%;" (ngModelChange)="_startDate=$event;_startValueChange()" [ngModel]="_startDate"
+                      [nzDisabledDate]="_disabledStartDate" [nzShowTime]="true" [nzFormat]="'YYYY-MM-DD HH:mm:ss'" [nzPlaceHolder]="'开始时间'"></nz-datepicker>
+                    <a class="near" href="javascript:;" (click)="near(7)">最近7天</a>
+                  </div>
+                </div>
+              </div>
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="phone">手机号</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-input [nzSize]="'large'" [(ngModel)]="phone" formControlName="phone"></nz-input>
+                  </div>
+                </div>
+              </div>
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="payNumber">交易单号</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-input [nzSize]="'large'" [(ngModel)]="payNumber" formControlName="payNumber"></nz-input>
+                  </div>
+                </div>
+              </div>
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="statusType">下单方式</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-select style="width: 120px;" [(ngModel)]="orderForm" formControlName="orderForm" [nzPlaceHolder]="'下单方式'">
+                      <nz-option [nzLabel]="'全部'" [nzValue]="''">
+                      </nz-option>
+                      <nz-option [nzLabel]="'代客下单'" [nzValue]="'1'">
+                      </nz-option>
+                      <nz-option [nzLabel]="'用户下单'" [nzValue]="'2'">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+              </div>
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="endDate">结束时间</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-datepicker formControlName="endDate" style="width: 40%;" (ngModelChange)="_endDate=$event;_endValueChange()" [ngModel]="_endDate"
+                      [nzDisabledDate]="_disabledEndDate" [nzShowTime]="_endTime" [nzFormat]="'YYYY-MM-DD HH:mm:ss'" [nzPlaceHolder]="'结束时间'"></nz-datepicker>
+                    <a class="near" href="javascript:;" (click)="near(30)">最近30天</a>
+                  </div>
+                </div>
+              </div>
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="providerName">供应商</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-input [nzSize]="'large'" [(ngModel)]="providerName" formControlName="providerName"></nz-input>
+                  </div>
+                </div>
+              </div>
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="storeName">店铺</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-input [nzSize]="'large'" [(ngModel)]="storeName" formControlName="storeName"></nz-input>
+                  </div>
+                </div>
+              </div>
+              <div nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="statusType">商品类型</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-select style="width: 120px;" [(ngModel)]="goodsType" formControlName="goodsType" [nzPlaceHolder]="'商品类型'">
+                      <nz-option [nzLabel]="'全部'" [nzValue]="''">
+                      </nz-option>
+                      <nz-option [nzLabel]="'真实商品'" [nzValue]="'1'">
+                      </nz-option>
+                      <nz-option [nzLabel]="'虚拟商品'" [nzValue]="'2'">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!channelName" nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="channelId">订单来源</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-select style="width: 120px;" [(ngModel)]="channelId" formControlName="channelId" [nzPlaceHolder]="'订单来源'" nzShowSearch>
+                      <nz-option *ngFor="let option of channels" [nzLabel]="option.name" [nzValue]="option.id">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="orderType === 1" nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="payType">支付方式</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-select style="width: 120px;" [(ngModel)]="payType" formControlName="payType" [nzPlaceHolder]="'支付方式'">
+                      <nz-option [nzLabel]="'全部'" [nzValue]="''">
+                      </nz-option>
+                      <nz-option *ngFor="let option of payments" [nzLabel]="option.payMethodName" [nzValue]="option.payMethodType">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="orderType === 1" nz-col [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <div nz-form-item nz-row>
+                  <div nz-form-label nz-col [nzMd]="6" [nzSm]="6" [nzXs]="6">
+                    <label [attr.for]="deliveryMode">配送方式</label>
+                  </div>
+                  <div nz-form-control nz-col [nzMd]="18" [nzSm]="18" [nzXs]="18">
+                    <nz-select style="width: 120px;" [(ngModel)]="deliveryMode" formControlName="deliveryMode" [nzPlaceHolder]="'配送方式'">
+                      <nz-option [nzLabel]="'全部'" [nzValue]="''">
+                      </nz-option>
+                      <nz-option *ngFor="let option of deliveryModes" [nzLabel]="option.deliveryModeName" [nzValue]="option.deliveryModeType">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col [nzSpan]="24" style="text-align: right;">
+                <button nz-button [nzType]="'primary'" (click)="search(controlArray)">搜索</button>
+                <button nz-button (click)="resetForm()">清除</button>
+              </div>
+            </div>
+          </form>
+        </span>
+      </nz-tab>
+    </nz-tabset>
+
+    <div class="operations">
+      <button nz-button [nzType]="'primary'" (click)="export()">{{isSelected ? '批量导出' : '全部导出'}}</button>
+    </div>
+    <div class="search-result-list">
+      <app-channel-check-order-list (isSelectedService)="onSelectedService($event)" (showError)="onShowError($event)" [channelId]="channelId"
+        [searchFlag]="_serviceSearchFlag" [goodName]="goodName" [orderId]="orderId" [payNumber]="payNumber" [exportFlag]="_serviceExportFlag"
+        [goodsType]="goodsType" [providerName]="providerName" [storeName]="storeName" [deliveryModeType]="deliveryMode" [payMethodType]="payType"
+        [orderForm]="orderForm" [orderType]="orderType" [phone]="phone" [startDate]="_startDate" [endDate]="_endDate" [statusType]="selectedStatusTypeOption ? selectedStatusTypeOption : 11"></app-channel-check-order-list>
+    </div>
+  </div>
+  <nz-back-top></nz-back-top>
+</nz-content>

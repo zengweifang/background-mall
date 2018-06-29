@@ -1,0 +1,50 @@
+<nz-popover [nzTitle]="_title" [nzTrigger]="'click'" [nzPlacement]="'bottomRight'" [nzVisible]="_isVisible" (nzVisibleChange)="visibleChange($event)">
+  <p nz-popover (click)="_getData()"><a>取消订单</a></p>
+  <ng-template #nzTemplate>
+    <div class="cancel-order" nz-row>
+        <div nz-row>
+          <!-- *ngIf="_cancelReasons.length != 0" -->
+          <div nz-col [nzSpan]="24" *ngIf="_cancelReasons.length > 0">
+              <nz-radio-group [(ngModel)]="_radioValue">
+                <label nz-radio [nzValue]="item.id" *ngFor="let item of _cancelReasons">
+                  <span>{{item.reason}}</span>
+                </label>
+              </nz-radio-group>
+          </div>
+          <!-- *ngIf="_cancelReasons.length == 0" -->
+          <div nz-col [nzSpan]="24" *ngIf="_cancelReasons.length == 0">
+            <div nz-row [nzType]="'flex'" [nzAlign]="'middle'">
+              <div nz-col [nzSpan]="5">
+                  <span style="color: red">*</span>原因
+              </div>
+              <!-- <label><span>*</span>原因</label> -->
+              <div nz-col [nzSpan]="19">
+                  <nz-select style="width: 60%" [(ngModel)]="_data.reasonId" [nzPlaceHolder]="'订单状态'"
+                    nzAllowClear>
+                    <nz-option *ngFor="let option of _cancelOrderReasons" [nzLabel]="option.desc" [nzValue]="option.id">
+                    </nz-option>
+                  </nz-select> 
+              </div>
+            </div>
+            <div nz-row [nzType]="'flex'" [nzAlign]="'middle'" style="margin-top: 10px">
+              <div nz-col [nzSpan]="5">
+                  <span>详细说明</span>
+              </div>
+              <div nz-col [nzSpan]="19">
+                <textarea class="input-textarea" [(ngModel)]="_data.desc"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div nz-col [nzSpan]="24" class="btns">
+          <div>
+              <button nz-button (click)="cancel()">取消</button>
+              <button nz-button [nzType]="'primary'" *ngIf="_cancelReasons.length > 0" [disabled]="!_radioValue" (click)="sure()">保存</button>
+              <button nz-button [nzType]="'primary'" *ngIf="_cancelReasons.length == 0" [disabled]="!_data.reasonId" (click)="sure()">保存</button>
+          </div>
+        </div>
+        <nz-spin [nzSpinning]="_isSpinning"></nz-spin>
+    </div>
+  </ng-template>
+</nz-popover>
+  

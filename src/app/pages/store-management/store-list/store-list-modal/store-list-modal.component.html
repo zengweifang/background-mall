@@ -1,0 +1,75 @@
+<div>
+  <form nz-form [formGroup]="_validateForm">
+    <div nz-form-item nz-row *ngIf="!isVirtual"> 
+        <div nz-form-label nz-col [nzSpan]="4">
+          <label nz-form-item-required>
+              <span>可服务时间设置</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="20">
+            <nz-timepicker [(ngModel)]="_startDate" [nzFormat]="'HH'" [ngModelOptions]="{standalone: true}" [nzPlaceHolder]="'开始时间'" [nzDisabledHours]="startDisabledHours" nzHideDisabledOptions  (ngModelChange)="_startDate=$event;_startValueChange($event)"></nz-timepicker>
+            <span>~</span>
+            <nz-timepicker [(ngModel)]="_endDate" [ngModelOptions]="{standalone: true}" [nzFormat]="'HH'" [nzPlaceHolder]="'结束时间'" [nzDisabledHours]="endDisabledHours" nzHideDisabledOptions  (ngModelChange)="_endDate=$event;_endValueChange($event)"></nz-timepicker>
+            <i class="anticon anticon-plus-circle" style="font-size: 14px;margin-left: 8px;cursor: pointer;" (click)="addServiceTime(_startDate,_endDate)"></i>
+            <div nz-row>
+                <ul class="st-ul" nz-col [nzSpan]="24">
+                    <li *ngFor="let item of (_serviceTime | storeServiceTime)">
+                        {{item.timeStart.getHours()}}:00-{{item.timeEnd.getHours()}}:00
+                        <i class="anticon anticon-close-circle" (click)="deleteServiceTime(item)"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="4">
+            <span nz-form-item-required style="padding-right: 8px">
+                <span>服务需要提前</span>
+            </span>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="8" nzHasFeedback [nzValidateStatus]="_validateForm.controls['advanceService']">
+            <nz-input style="width: 100px;margin-right: 8px" formControlName="advanceService" [nzId]="'advanceService'" [(ngModel)]="_editParams.advanceService"></nz-input><span>小时预约</span>
+            <div nz-form-explain *ngIf="getFormControl('advanceService').dirty&&getFormControl('advanceService').hasError('required')">请输入服务预约时间</div>
+            <div nz-form-explain *ngIf="getFormControl('advanceService').dirty&&getFormControl('advanceService').hasError('advanceService')">请输入整数</div>
+            <div nz-form-explain *ngIf="getFormControl('advanceService').dirty&&getFormControl('advanceService').hasError('time')">暂不支持设置7天之后的时间</div>
+        </div>
+    </div>
+
+    <div nz-form-item nz-row style="max-height: 300px;overflow-y: auto"> 
+        <div nz-form-label nz-col [nzSpan]="4">
+            <i class="anticon anticon-plus-circle" style="cursor: pointer;font-size: 14px" (click)="timeCondition()"></i>
+            <label>
+                <span>时间条件</span>
+            </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="20">
+            <div nz-row>
+                <div nz-col [nzSpan]="24" *ngFor="let item of (_metaData | storeServiceTime);let i = index" style="margin-bottom: 16px">
+                    <span>用户在</span>
+                    <nz-timepicker [(ngModel)]="item.timeStart" [ngModelOptions]="{standalone: true}" [nzFormat]="'HH:mm'" [nzPlaceHolder]="'开始时间'"  nzHideDisabledOptions [nzDisabledHours]="item.itemStartDisabledHours" [nzDisabledMinutes]="item.itemStartDisabledMinutes" (ngModelChange)="item.timeStart=$event;_itemStartValueChange(item,i)"></nz-timepicker>
+                    <span>~</span>
+                    <nz-timepicker [(ngModel)]="item.timeEnd" [ngModelOptions]="{standalone: true}" [nzFormat]="'HH:mm'" [nzPlaceHolder]="'结束时间'" nzHideDisabledOptions [nzDisabledHours]="item.itemEndtDisabledHours" [nzDisabledMinutes]="item.itemEndDisabledMinutes" (ngModelChange)="item.timeEnd=$event;_itemEndValueChange(item,i)" [nzDisabled]="item.EndDisabled"></nz-timepicker>
+                    <span>下单,</span>
+                    <span>需要提前</span>
+                    <nz-input style="width: 80px;" [(ngModel)]="item.processTime" [ngModelOptions]="{standalone: true}"></nz-input><span>小时预约服务</span>
+                    <button nz-button [nzType]="'default'" (click)="deleteItem(item)" style="margin-left: 16px">
+                        删除
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+  </form>
+  <div class="customize-footer">
+        <button *ngIf="!isVirtual" nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="emitDataOutside($event)" [nzLoading]="_isConfirmLoading" [disabled]="!_validateForm.valid || _serviceTime.length <= 0">
+            保 存
+        </button>
+        <button nz-button *ngIf="isVirtual" [nzType]="'primary'" [nzSize]="'large'" (click)="emitDataOutside($event)" [nzLoading]="_isConfirmLoading" [disabled]="!_validateForm.valid">
+            保 存
+        </button>
+        <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+            取 消
+        </button>
+  </div>
+</div>

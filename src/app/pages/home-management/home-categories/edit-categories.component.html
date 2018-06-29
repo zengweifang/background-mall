@@ -1,0 +1,129 @@
+<nz-content style="margin:0 16px;">
+  <nz-breadcrumb style="margin:12px 0;">
+    <nz-breadcrumb-item>编辑首页类目</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div style="padding:24px; background: #fff; min-height: 360px;">
+    <div class="goback clearfix">
+        <button (click)="goback()" style="float: right;margin-bottom: 24px;" nz-button>返回</button>
+    </div>
+    <div class="panel">
+      <div class="panel-heading">
+        <span>基本信息</span>
+      </div>
+      <div class="panel-body">
+        <form nz-form [formGroup]="validateForm">
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label nz-form-item-required for="title">标题</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['title']">
+              <nz-input [(ngModel)]="_params.title" formControlName="title" [nzSize]="'large'" [nzId]="'title'"></nz-input>
+              <div nz-form-explain *ngIf="getFormControl('title').dirty && getFormControl('title').hasError('required')">标题</div>
+              <div nz-form-explain *ngIf="getFormControl('title').dirty && (getFormControl('title').hasError('minlength') || getFormControl('title').hasError('maxlength'))">30字符以内；字符类型：大小写字母、数字、汉字</div>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label for="title">备注</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['remark']">
+              <nz-input [(ngModel)]="_params.remark" formControlName="remark" [nzSize]="'large'" [nzId]="'remark'"></nz-input>
+              <div nz-form-explain *ngIf="getFormControl('remark').dirty && (getFormControl('remark').hasError('maxlength'))">100字符以内</div>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label nz-form-item-required for="title">首页icon图片</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['iconImgUrl']">
+              <nz-upload [nzAction]="uploadUrl" nzListType="picture-card" [(nzFileList)]="thumbUrlFileList" [nzShowButton]="thumbUrlFileList.length < 1"
+                [nzPreview]="handlePreview" (nzChange)="imageUpdateStateChange($event)">
+                <i class="anticon anticon-plus"></i>
+                <div class="ant-upload-text">Upload</div>
+              </nz-upload>
+              <div nz-form-explain>建议上传图片不超过200KB，尺寸为88*88像素</div>
+              <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible=false">
+                <ng-template #modalContent>
+                  <img [src]="previewImage" [ngStyle]="{ 'width': '100%' }" />
+                </ng-template>
+              </nz-modal>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label nz-form-item-required for="label">标签</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['label']">
+              <nz-select style="width: 120px;" [(ngModel)]="_params.label" formControlName="label" [nzPlaceHolder]="'choose option'">
+                <nz-option *ngFor="let option of labels" [nzLabel]="option.label" [nzValue]="option.label">
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label nz-form-item-required for="showLeftIndex">是否在左侧导航显示</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['showLeftIndex']">
+              <nz-radio-group [(ngModel)]="_params.showLeftIndex" formControlName="showLeftIndex">
+                <label nz-radio [nzValue]="true">
+                  <span>是</span>
+                </label>
+                <label nz-radio [nzValue]="false">
+                  <span>否</span>
+                </label>
+              </nz-radio-group>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label nz-form-item-required for="title">可见区域</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14">
+              <div style="height: 500px; width: 250px; overflow-y: scroll;background-color:#fff;text-align: left;border: 1px solid #ccc;">
+                <custom-cities-select [nodes]="nodes" [isMoreLevel]="true" (csSelectedCites)="csSelectedCites($event)"></custom-cities-select>
+              </div>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <label nz-form-item-required for="index">排序</label>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['index']">
+              <nz-input-number [(ngModel)]="_params.index" [nzMin]="0" formControlName="index" [nzSize]="'large'"></nz-input-number>
+              <div nz-form-explain *ngIf="getFormControl('index').dirty && getFormControl('index').hasError('required')">排序</div>
+              <div nz-form-explain *ngIf="getFormControl('index').dirty && (getFormControl('index').hasError('minlength') || getFormControl('index').hasError('maxlength'))">32字符以内；字符类型：大小写字母、数字、汉字</div>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+              <span style="color: red;padding-right: 3px;">*</span>
+              <nz-select style="width: 120px;float: right;padding-right: 5px;" [(ngModel)]="selectedLinkType" formControlName="selectedLinkType" [nzPlaceHolder]="'choose option'"
+                >
+                <nz-option *ngFor="let option of links" [nzLabel]="option.label" [nzValue]="option.value">
+                </nz-option>
+              </nz-select>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14" nzHasFeedback [nzValidateStatus]="validateForm.controls['linkContent']">
+              <nz-input style="width: 70%;" [(ngModel)]="linkContent" *ngIf="selectedLinkType === 1" [nzDisabled]="selectedLinkType === 2" formControlName="linkContent" [nzSize]="'large'" [nzId]="'linkContent'"></nz-input>
+              <nz-input style="width: 70%;" [ngModel]="contentGroup.name" *ngIf="selectedLinkType === 2" [nzDisabled]="selectedLinkType === 2" formControlName="contentGroup" [nzSize]="'large'" [nzId]="'linkContent'"></nz-input>
+              <a href="javascript:;" (click)="showLinkContent()" *ngIf="selectedLinkType === 2">点击此处选择关联内容</a>
+              <div nz-form-explain *ngIf="getFormControl('linkContent').dirty && getFormControl('linkContent').hasError('required')">跳转到</div>
+              <div nz-form-explain *ngIf="getFormControl('linkContent').dirty && (getFormControl('linkContent').hasError('minlength') || getFormControl('linkContent').hasError('maxlength'))">11到200个字符</div>
+            </div>
+          </div>
+          <div nz-row nz-form-item>
+            <div nz-form-label nz-col [nzSpan]="4">
+            </div>
+            <div nz-form-control nz-col [nzSpan]="14">
+              <div style="float: right;">
+                  <!-- <button [disabled]="disabledButton()" (click)="save(1)" nzType="primary" nz-button>立即开启</button> -->
+                  <button [disabled]="disabledButton()" (click)="save()" nzType="primary" nz-button>保存</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</nz-content>

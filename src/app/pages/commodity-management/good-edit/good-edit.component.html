@@ -1,0 +1,326 @@
+<nz-content style="margin:0 16px 44px 16px;">
+  <nz-breadcrumb style="margin:12px 0;">
+    <nz-breadcrumb-item>商品管理</nz-breadcrumb-item>
+    <nz-breadcrumb-item>编辑商品</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div style="padding:24px 24px 50px 24px;  background: #fff; min-height: 360px;">
+    <!-- <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="_submitForm()">
+                    <div nz-form-item>
+                      <div nz-form-control>
+                        <nz-input formControlName="userName" [nzPlaceHolder]="'Username'" [nzSize]="'large'">
+                          <ng-template #prefix>
+                            <i class="anticon anticon-user"></i>
+                          </ng-template>
+                        </nz-input>
+                        <div nz-form-explain *ngIf="validateForm.controls.userName.dirty&&validateForm.controls.userName.hasError('required')">Please input your username!</div>
+                      </div>
+                    </div>
+                    <div nz-form-item>
+                      <div nz-form-control>
+                        <nz-input formControlName="password" [nzType]="'password'" [nzPlaceHolder]="'Password'" [nzSize]="'large'">
+                          <ng-template #prefix>
+                            <i class="anticon anticon-lock"></i>
+                          </ng-template>
+                        </nz-input>
+                        <div nz-form-explain *ngIf="validateForm.controls.password.dirty&&validateForm.controls.password.hasError('required')">Please input your Password!</div>
+                      </div>
+                    </div>
+                    <div nz-form-item>
+                      <div nz-form-control>
+                        <label nz-checkbox formControlName="remember">
+                          <span>Remember me</span>
+                        </label>
+                        <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
+                        <button nz-button class="login-form-button" [nzType]="'primary'" [nzSize]="'large'">Log in</button>
+                        Or
+                        <a href="">register now!</a>
+                      </div>
+                    </div>
+                  </form> -->
+    <div class="wgj-content">
+      <div class="wgj-section">
+        <div class="wgj-section-header">
+          <span>基本信息</span>
+        </div>
+        <div class="wgj-section-content base-info-content clearfix">
+          <form nz-form [formGroup]="validateForm">
+            <!-- <div nz-row> -->
+            <div nz-col [nzSpan]="12" class="base-info-col-first">
+              <div nz-form-item nz-col [nzSpan]="24" nz-row>
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="name" nz-form-item-required>商品名称</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input formControlName="name" [(ngModel)]="commitData.goodsDTO.name" [nzPlaceHolder]="'商品名称'"></nz-input>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row>
+                <div nz-form-label nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="goodsTypeFullName" nz-form-item-required>商品类目</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input formControlName="goodsTypeFullName" [nzDisabled]="!isAddNew" [(ngModel)]="commitData.goodsDTO.goodsTypeFullName" [nzPlaceHolder]="'商品类目'"></nz-input>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row>
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="virtual" nz-form-item-required>商品类型</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input formControlName="virtual" [nzDisabled]="!isAddNew" [ngModel]="commitData.goodsDTO.virtual === 0 ? '真实商品' : '虚拟商品'" [nzPlaceHolder]="'商品类目'"></nz-input>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row>
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="price" nz-form-item-required>售价</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input-number formControlName="price" [(ngModel)]="commitData.goodsDTO.price" [nzMin]="0" [nzMax]="commitData.goodsDTO.originalPrice"
+                    [nzStep]="1"></nz-input-number>
+                  <div nz-form-explain>数字。保留两位小数。0～9999999.99。且数值不能大于原价</div>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row>
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="originalPrice" nz-form-item-required>原价</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input-number formControlName="originalPrice" [(ngModel)]="commitData.goodsDTO.originalPrice" [nzMin]="0" [nzMax]="9999999"
+                    [nzStep]="1"></nz-input-number>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row>
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="costPrice">成本价</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input-number formControlName="costPrice" [(ngModel)]="commitData.goodsDTO.costPrice" [nzMin]="0" [nzMax]="9999999" [nzStep]="1"></nz-input-number>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row>
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="weight" nz-form-item-required>重量</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input-number formControlName="weight" [(ngModel)]="commitData.goodsDTO.weight" [nzMin]="0" [nzMax]="9999999" [nzStep]="1"></nz-input-number>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row>
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="code" nz-form-item-required>商品编码</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input formControlName="code" [(ngModel)]="commitData.goodsDTO.code" [nzPlaceHolder]="'商品编码'"></nz-input>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row>
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="barcode">商品条形码</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input formControlName="barcode" [(ngModel)]="commitData.goodsDTO.barcode" [nzPlaceHolder]="'商品条形码'"></nz-input>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row *ngIf="hasServiceInventory">
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="duration" nz-form-item-required>服务时长(单位:小时)</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input-number formControlName="duration" [(ngModel)]="commitData.goodsDTO.duration" [nzMin]="0" [nzMax]="9999999" [nzStep]="1"></nz-input-number>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row *ngIf="hasServiceInventory">
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="maxOrders" nz-form-item-required>服务最多可选</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input-number formControlName="maxOrders" [(ngModel)]="commitData.goodsDTO.maxOrders" [nzMin]="1" [nzMax]="9999999" [nzStep]="1"></nz-input-number>
+                </div>
+              </div>
+              <div nz-form-item nz-col [nzSpan]="24" nz-row *ngIf="hasServiceInventory">
+                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                  <label for="minOrders" nz-form-item-required>起购数量</label>
+                </div>
+                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input-number formControlName="minOrders" [(ngModel)]="commitData.goodsDTO.minOrders" [nzMin]="1" [nzMax]="9999999" [nzStep]="1"></nz-input-number>
+                </div>
+              </div>
+              <!-- <div nz-form-item nz-col [nzSpan]="24" nz-row *ngIf="commitData.goodsDTO.hasDeposit">
+                                <div nz-form-label nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                                    <label for="hasDeposit" nz-form-item-required>成本价</label>
+                                </div>
+                                <div nz-form-control nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                                    <label nz-radio formControlName="hasDeposit" [(ngModel)]="commitData.goodsDTO.hasDeposit" [nzDisabled]="true">
+                                        <span>无定金</span>
+                                      </label>
+                                </div>
+                            </div> -->
+            </div>
+            <div nz-col [nzSpan]="12" nz-row class="rd-image">
+              <div nz-col [nzSpan]="24" nz-row class="base-info-col-img">
+                <div nz-col [nzXs]="3" [nzSm]="3" [nzMd]="3" [nzLg]="3" [nzXl]="3">
+                  <label for="primaryImage" nz-form-item-required>商品主图</label>
+                </div>
+                <div nz-col [nzXs]="21" [nzSm]="21" [nzMd]="21" [nzLg]="21" [nzXl]="17" nz-row>
+                  <nz-upload [nzAction]="uploadUrl" nzListType="picture-card" [(nzFileList)]="goodsDetailFileList" [nzShowButton]="goodsDetailFileList.length < 8"
+                    [nzPreview]="handlePreview" (nzChange)="goodsDetailImageUpdateStateChange($event)">
+                    <i class="anticon anticon-plus"></i>
+                    <div class="ant-upload-text">Upload</div>
+                  </nz-upload>
+                  <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible=false">
+                    <ng-template #modalContent>
+                      <img [src]="previewImage" [ngStyle]="{ 'width': '100%' }" />
+                    </ng-template>
+                  </nz-modal>
+                  <!-- <div style="overflow: hidden;">第一张为商品主图</div> -->
+                </div>
+              </div>
+            </div>
+            <!-- </div> -->
+          </form>
+        </div>
+      </div>
+      <div class="wgj-section">
+        <div class="wgj-section-header">
+          <span>商品属性</span>
+        </div>
+        <div class="wgj-section-content goods-attrs-content">
+          <div class="attr-content">
+            <span class="key">
+              个性化选项
+              <nz-tooltip [nzTitle]="'希望用户填写某些信息?如：保洁服务需要用户填写服务时间，请选择服务时间，如果没有可选选项，请联系旺管家商务增加选项。'" [nzPlacement]="'top'">
+                <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+              </nz-tooltip>
+            </span>
+            <nz-select style="width: 120px;" [(ngModel)]="selectedGoodsAttribute" [nzPlaceHolder]="'选择属性小组'" (ngModelChange)="goodsAttributeChange(selectedGoodsAttribute)"
+              nzAllowClear nzShowSearch>
+              <nz-option *ngFor="let option of goodsAttributes" [nzLabel]="option.name" [nzValue]="option">
+              </nz-option>
+            </nz-select>
+            <a href="javascript:;" (click)="showImage(content)">事例</a>
+            <ng-template #content>
+              <div>
+                <img src="assets/images/checkExample.png" alt="">
+              </div>
+            </ng-template>
+          </div>
+          <div class="attr-detail" *ngIf="goodsAttributeDetail">
+            <div style="margin-top: 16px;" *ngIf="goodsAttributeDetail.supplierAttributeDefineVOList && goodsAttributeDetail.supplierAttributeDefineVOList.length">请完善商品参数：</div>
+            <div *ngFor="let goodAttributeDefineDTO of goodsAttributeDetail.supplierAttributeDefineVOList">
+              <div *ngIf="goodAttributeDefineDTO.attrType === 0">
+                <div style="margin-top: 8px;">
+                  <div class="attr-key" style="display: inline-block;">
+                    <span style="color: red;" *ngIf="goodAttributeDefineDTO.required">*</span>
+                    <span>{{goodAttributeDefineDTO.title}}：</span>
+                  </div>
+                  <nz-input style="width:50%;" [nzPlaceHolder]="(goodAttributeDefineDTO.attributeValueVOList && goodAttributeDefineDTO.attributeValueVOList.length) ? goodAttributeDefineDTO.attributeValueVOList[0].content : ''"
+                    [(ngModel)]="goodAttributeDefineDTO.attributeValue"></nz-input>
+                </div>
+              </div>
+              <div *ngIf="goodAttributeDefineDTO.attrType==1">
+                <label>
+                  <span style="color: red;" *ngIf="goodAttributeDefineDTO.required">*</span>{{goodAttributeDefineDTO.title}}</label>
+                <nz-select style="width: 120px;" [(ngModel)]="goodAttributeDefineDTO.attributeValueId" [nzPlaceHolder]="'选择属性小组'" nzAllowClear
+                  nzShowSearch>
+                  <nz-option *ngFor="let attributeValueVO of goodAttributeDefineDTO.attributeValueVOList" [nzLabel]="attributeValueVO.content"
+                    [nzValue]="attributeValueVO.id">
+                  </nz-option>
+                </nz-select>
+              </div>
+              <div *ngIf="goodAttributeDefineDTO.attrType==2">
+                <label style="width:100px" required="goodAttributeDefineDTO.required">
+                  <span style="color: red;" *ngIf="goodAttributeDefineDTO.required">*</span>{{goodAttributeDefineDTO.title}}：</label>
+                <nz-datepicker [(ngModel)]="goodAttributeDefineDTO.attributeValue" [nzPlaceHolder]="'输入时间'" *ngIf="goodAttributeDefineDTO.required"></nz-datepicker>
+                <nz-datepicker [(ngModel)]="goodAttributeDefineDTO.attributeValue" [nzPlaceHolder]="'输入时间'" *ngIf="!goodAttributeDefineDTO.required"></nz-datepicker>
+                <!-- <md-datepicker [(ngModel)]="goodAttributeDefineDTO.attributeValue" md-placeholder="输入时间" style="margin-left:-15px" required
+                  *ngIf="goodAttributeDefineDTO.required">
+                </md-datepicker>
+                <md-datepicker [(ngModel)]="goodAttributeDefineDTO.attributeValue" md-placeholder="输入时间" style="margin-left:-15px" *ngIf="!goodAttributeDefineDTO.required">
+                </md-datepicker> -->
+              </div>
+            </div>
+            <div style="margin-top: 16px;" *ngIf="goodsAttributeDetail.userAttributeDefineVOList">
+              <div>收集用户字段：</div>
+              <nz-table #nzTable [nzDataSource]="goodsAttributeDetail.userAttributeDefineVOList" [nzIsPagination]="false">
+                <thead nz-thead>
+                  <tr>
+                    <th>字段</th>
+                    <th>是否必填</th>
+                    <th>
+                      <span>字段类型</span>
+                    </th>
+                    <th>
+                      <span>提示或者约束</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody nz-tbody>
+                  <tr nz-tbody-tr *ngFor="let userAttributeDefineVO of nzTable.data">
+                    <td nz-td>
+                      {{userAttributeDefineVO.title}}
+                    </td>
+                    <td nz-td>{{userAttributeDefineVO.required ? '必填' : '非必填'}}</td>
+                    <td nz-td>
+                      {{userAttributeDefineVO.attrType === 0 ? '单行文本框' : userAttributeDefineVO.attrType === 1 ? '下拉菜单' : userAttributeDefineVO.attrType
+                      === 2 ? '时间控件' : '' }}
+                    </td>
+                    <td nz-td>
+                      <span *ngFor="let attributeValueVO of userAttributeDefineVO.attributeValueVOList">{{attributeValueVO.content}},</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wgj-section">
+        <div class="wgj-section-header">
+          <span>商品详情</span>
+        </div>
+        <div class="wgj-section-content goods-detail">
+          <div nz-row>
+            <div nz-col [nzSpan]="12" class="gd-left" style="padding-right:24px">
+              <div nz-col [nzSpan]="24" nz-row class="base-info-col-span">
+                <div nz-col [nzXs]="3" [nzSm]="3" [nzMd]="3" [nzLg]="3" [nzXl]="3">
+                  商品简介:
+                </div>
+                <div nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <nz-input [(ngModel)]="commitData.goodsDTO.summary" [nzRows]="2" [nzType]="'textarea'" [nzPlaceHolder]="'简单介绍下您的商品'"
+                    [nzSize]="'large'">
+                  </nz-input>
+                </div>
+              </div>
+              <div nz-col [nzSpan]="24" nz-row class="base-info-col-span" style="margin-top: 16px;">
+                <div nz-col [nzXs]="4" [nzSm]="4" [nzMd]="4" [nzLg]="4" [nzXl]="3">
+                    <span><span style="color: red;">*</span>商品描述:</span>
+                </div>
+                <div nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <div class="phone">
+                    <div class="doc-body" [innerHTML]="commitData.goodsDTO.descriptions | safe: 'html'"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div nz-col [nzSpan]="12" nz-row class="gd-left" style="padding-left:24px; margin-top: 66px;">
+              <div nz-col [nzSpan]="24" nz-row class="base-info-col-span">
+                <div nz-col [nzXs]="20" [nzSm]="20" [nzMd]="20" [nzLg]="20" [nzXl]="21">
+                  <ckeditor [(ngModel)]="commitData.goodsDTO.descriptions" [readonly]="false" [config]="editorConfig" (fileUploadRequest)="onFileUploadRequest($event)"
+                    debounce="500">
+                  </ckeditor>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="review-footer">
+    <nz-button-group [nzSize]="'large'">
+      <button [disabled]="disableSubmitButton()" nz-button [nzType]="'default'" (click)="updateGood()">
+        <span>保存并提交审核</span>
+      </button>
+    </nz-button-group>
+  </div>
+</nz-content>

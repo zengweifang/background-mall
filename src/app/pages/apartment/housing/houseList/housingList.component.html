@@ -1,0 +1,137 @@
+<nz-content style="margin:0 16px;">
+    <nz-breadcrumb style="margin:12px 0;">
+        <nz-breadcrumb-item>公寓管理</nz-breadcrumb-item>
+        <nz-breadcrumb-item>房源管理</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <div style="padding:24px; background: #fff; min-height: 360px;">
+        <div class="table-operations">
+            <button nz-button [nzType]="'primary'" (click)="addHousing()">新增房源</button>
+            <button nz-button class="ant-btn__block file-upload mt-sm" class="file-upload" [nzLoading]="_importOperating">
+                <input id="file1" accept type="file" ng2FileSelect [uploader]="uploader" />
+                <!-- <i class="anticon anticon-upload"></i> -->
+                <span>导入房源</span>
+            </button>
+        </div>
+        <form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" class="ant-advanced-search-form" style="margin-top: 16px;line-height: 32px">
+            <div nz-row>
+                <div nz-col [nzLg]="24" [nzXl]="18">
+                    <div nz-col [nzLg]="6" [nzXl]="6">
+                        <div nz-row>
+                            <div nz-form-label nz-col [nzLg]="8" [nzXl]="8">
+                                <label>房源地址</label>
+                            </div>
+                            <div nz-form-control nz-col [nzLg]="16" [nzXl]="16">
+                                <nz-input [nzSize]="'large'" formControlName="address" [nzPlaceHolder]="'房源地址'" [(ngModel)]="_params.address"></nz-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div nz-col [nzLg]="6" [nzXl]="6">
+                        <div nz-row>
+                            <div nz-form-label nz-col [nzLg]="8" [nzXl]="8">
+                                <label>房屋编号</label>
+                            </div>
+                            <div nz-form-control nz-col [nzLg]="16" [nzXl]="16">
+                                <nz-input [nzSize]="'large'" formControlName="resourceCode" [nzPlaceHolder]="'房屋编号'" [(ngModel)]="_params.resourceCode"></nz-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div nz-col [nzLg]="6" [nzXl]="6">
+                        <div nz-row>
+                            <div nz-form-label nz-col [nzLg]="8" [nzXl]="8">
+                                <label>密码锁平台</label>
+                            </div>
+                            <div nz-form-control nz-col [nzLg]="16" [nzXl]="16">
+                                <nz-select [(ngModel)]="_params.lockCode" [nzPlaceHolder]="'密码锁平台'" nzAllowClear formControlName="lockCode">
+                                    <nz-option *ngFor="let option of options" [nzLabel]="option.label" [nzValue]="option.id">
+                                    </nz-option>
+                                </nz-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-col [nzLg]="8" [nzXl]="8" *ngIf="flag">
+                        <div nz-row>
+                            <div nz-form-label nz-col [nzLg]="8" [nzXl]="8">
+                                <label>创建房源时间</label>
+                            </div>
+                            <div nz-form-control nz-col [nzLg]="16" [nzXl]="16">
+                                <nz-rangepicker [(ngModel)]="time.utcTime._dateRange" [nzPlaceholder]="['选择起始时间', '选择终止时间']" formControlName="rangDate" (ngModelChange)="changeDateCall()"></nz-rangepicker>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div nz-col [nzLg]="6" [nzXl]="6" style="padding-left: 16px">
+                        <button nz-button [nzType]="'primary'" (click)="filter()" style="margin-right:8px">
+                            <i class="anticon anticon-search"></i>
+                            <span>搜索</span>
+                        </button>
+                        <button nz-button [nzType]="'default'" (click)="resetForm($event)">
+                            <span>清除条件</span>
+                        </button>
+                        <span style="cursor: pointer;" (click)="flag = !flag" *ngIf="!flag">更多<i class="anticon anticon-down"></i></span>
+                        <span style="cursor: pointer;" (click)="flag = !flag" *ngIf="flag">收起<i class="anticon anticon-up"></i></span>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="search-result-list">
+            <nz-table #nzTable [nzAjaxData]="_dataSet.data" nzShowSizeChanger [nzLoading]="_loading" [nzTotal]="_dataSet.page.totalCount"
+                [(nzPageIndex)]="_params.page.currentPage" (nzPageIndexChange)="_refreshData(_params)" (nzPageSizeChange)="_refreshData(_params)"
+                [(nzPageSize)]="_params.page.pageSize" [nzShowTotal]="true" [nzSize]="'middle'">
+                <thead nz-thead>
+                    <tr>
+                        <th nz-th nzCheckbox>
+                            <label nz-checkbox [(ngModel)]="_allChecked" [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
+                            </label>
+                        </th>
+                        <th>房屋编号</th>
+                        <th>房源地址</th>
+                        <th>是否复式</th>
+                        <th>户型</th>
+                        <th>公共厕所</th>
+                        <th>公区数量</th>
+                        <th>套内面积</th>
+                        <th>建筑面积</th>
+                        <th>密码锁平台</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody nz-tbody>
+                    <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+                        <td nz-td nzCheckbox>
+                            <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="_refreshStatus($event)">
+                            </label>
+                        </td>
+                        <td nz-td>{{data.resourceCode}}</td>
+                        <td nz-td>{{data.address}}</td>
+                        <td nz-td>{{data.floors | floorPipe}}</td>
+                        <td nz-td>{{data.bedroomNum}}房{{data.livingroomNum}}厅{{data.bathroomNum}}卫</td>
+                        <td nz-td>{{data.publicBathroomNum}}个</td>
+                        <td nz-td>{{data.totalPublicArea}}个</td>
+                        <td nz-td>{{data.floorArea}}㎡</td>
+                        <td nz-td>{{data.constructionArea}}㎡</td>
+                        <td nz-td>{{data.apartmentLockName? data.apartmentLockName : '无'}}</td>
+                        <td nz-td>{{data.remark}}</td>
+                        <td nz-td>
+                            <span>
+                                <a (click)="toHousing(data)">编辑／查看</a>
+                                <span nz-table-divider></span>
+                                <a (click)="_deleteHousing(1,data.id)">删除</a>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <div class="table-operations table-delete-button">
+            <label nz-checkbox [(ngModel)]="_allChecked" [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
+            </label>
+            <span class="text-left">当页全选</span>
+            <button nz-button [nzType]="'default'" [disabled]="_disabledButton" [nzLoading]="_operating" (click)="_deleteHousing(2)">批量删除</button>
+            <span class="text-right" *ngIf="_checkedNumber">选择了 {{_checkedNumber}} 数据</span>
+        </div>
+    </div>
+    <nz-back-top></nz-back-top>
+</nz-content>

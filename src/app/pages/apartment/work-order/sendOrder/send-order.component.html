@@ -1,0 +1,191 @@
+<nz-content style="margin:0 16px 44px 16px;">
+    <nz-breadcrumb style="margin:12px 0;">
+        <nz-breadcrumb-item>商务工单管理</nz-breadcrumb-item>
+        <nz-breadcrumb-item>派单</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <form [nzType]="'horizontal'" nz-form [formGroup]="validateForm" (ngSubmit)="_submitForm()">
+        <div style="padding:24px 24px 50px 24px; background: #fff; min-height: 360px;">
+            <div class="wgj-content">
+                <div class="wgj-section">
+                    <div class="wgj-section-header">
+                        <span>房源列表</span>
+                    </div>
+                    <div class="wgj-section-content base-info-content">
+                        <div style="margin-bottom:10px">已选择房源工单共{{_orderDetail.length}}套</div>
+                        <nz-table #nzTable [nzDataSource]="_orderDetail" [nzPageSize]="10" nzShowSizeChanger [nzLoading]="_loading" [nzSize]="'middle'">
+                            <thead nz-thead>
+                                <tr>
+                                    <th nz-th>
+                                        <span>房源地址</span>
+                                    </th>
+                                    <th nz-th>
+                                        <span>公寓品牌</span>
+                                    </th>
+                                    <th nz-th>
+                                        <span>服务名称</span>
+                                    </th>
+                                    <th nz-th>
+                                        <span>服务时间</span>
+                                    </th>
+                                    <th nz-th>
+                                        <span>房源信息</span>
+                                    </th>
+                                    <th nz-th>
+                                        <span>自定义数量</span>
+                                        <nz-tooltip [nzTitle]="text" [nzPlacement]="'top'">
+                                            <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+                                        </nz-tooltip>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody nz-tbody>
+                                <tr nz-tbody-tr *ngFor="let item of nzTable.data;let i = index">
+                                    <td nz-td>{{item.address}}</td>
+                                    <td nz-td>{{item.apartmentName}}</td>
+                                    <td nz-td>{{item.beginServiceTime | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td nz-td>{{item.endServiceTime | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td nz-td>
+                                        <p>户型：{{item.bedroomNum}}房{{item.livingRoomNum}}厅{{item.bathroomNum}}卫</p>
+                                        <p>建筑面积：{{item.constructionArea}}㎡</p>
+                                        <p>套内面积：{{item.floorArea}}㎡</p>
+                                        <p>公区数量：{{item.totalPublicArea}}</p>
+                                    </td>
+                                    <td nz-td nz-form-item>
+                                        <div nz-form-control>
+                                            <nz-input [formControlName]="'customCount_'+i" [(ngModel)]="item.customCount" style="width:84px">
+                                            </nz-input>
+                                            <div nz-form-explain *ngIf="getFormControl('customCount_'+i).dirty&&getFormControl('customCount_'+i).hasError('required')">必填</div>
+                                            <div nz-form-explain *ngIf="getFormControl('customCount_'+i).dirty&&getFormControl('customCount_'+i).hasError('customCount')">不超过两位小数</div>
+                                        </div>
+
+                                        <!-- <div nz-col  *ngIf="!item.editRow">
+                                            <span style="padding-right:10px">{{item.customCount}}</span>
+                                            <a (click)="item.editRow=!item.editRow">修改</a>
+                                        </div>
+                                        <div nz-col  nz-form-control nzHasFeedback *ngIf="item.editRow">
+                                            <nz-input [formControlName]="'customCount_'+i" [(ngModel)]="item.customCount" style="width:45px">
+                                            </nz-input>
+                                            <a (click)="item.editRow=!item.editRow">提交</a>
+                                            <div nz-form-explain *ngIf="getFormControl('customCount_'+i).dirty&&getFormControl('customCount_'+i).hasError('required')">必填</div>
+                                            <div nz-form-explain *ngIf="getFormControl('customCount_'+i).dirty&&getFormControl('customCount_'+i).hasError('customCount')">不超过两位小数</div>
+                                        </div> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </div>
+                </div>
+                <div class="wgj-section">
+                    <div class="wgj-section-header">
+                        <span>选供应商</span>
+                    </div>
+                    <div class="wgj-section-content goods-attrs-content">
+                        <div style="margin-bottom:10px">已为您选出可派单供应商</div>
+                        <nz-radio-group [(ngModel)]="goodsObj" formControlName="goodsObj">
+                            <nz-table #nzTable2 [nzAjaxData]="_goodsRel.dataList" [(nzPageSize)]="_params.page.pageSize" [(nzPageIndex)]="_params.page.currentPage"
+                                [nzTotal]="_goodsRel.page.totalCount" [nzLoading]="_goodsRelLoading" (nzPageIndexChange)="listGoodsRelByPage(_params)"
+                                (nzPageSizeChange)="listGoodsRelByPage(_params)" [nzSize]="'middle'">
+                                <thead nz-thead>
+                                    <tr>
+                                        <th nz-th>
+                                            <span></span>
+                                        </th>
+                                        <th nz-th>
+                                            <span>供应商名称</span>
+                                            <nz-dropdown [nzTrigger]="'click'" [nzClickHide]="false">
+                                                <i class="anticon anticon-filter ant-table-filter-icon" nz-dropdown></i>
+                                                <div nz-dropdown-custom class="custom-filter-dropdown">
+                                                    <nz-input formControlName="providerName" [nzPlaceHolder]="'供应商名称'" [(ngModel)]="_params.providerName"></nz-input>
+                                                    <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+                                                </div>
+                                            </nz-dropdown>
+                                        </th>
+                                        <th nz-th>
+                                            <span>店铺名称</span>
+                                            <nz-dropdown [nzTrigger]="'click'" [nzClickHide]="false">
+                                                <i class="anticon anticon-filter ant-table-filter-icon" nz-dropdown></i>
+                                                <div nz-dropdown-custom class="custom-filter-dropdown">
+                                                    <nz-input formControlName="storeName" [nzPlaceHolder]="'店铺名称'" [(ngModel)]="_params.storeName"></nz-input>
+                                                    <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+                                                </div>
+                                            </nz-dropdown>
+                                        </th>
+                                        <th nz-th>
+                                            <span>商品名称</span>
+                                            <nz-dropdown [nzTrigger]="'click'" [nzClickHide]="false">
+                                                <i class="anticon anticon-filter ant-table-filter-icon" nz-dropdown></i>
+                                                <div nz-dropdown-custom class="custom-filter-dropdown">
+                                                    <nz-input formControlName="goodsName" [nzPlaceHolder]="'商品名称'" [(ngModel)]="_params.goodsName"></nz-input>
+                                                    <button nz-button [nzType]="'primary'" (click)="search()">搜索</button>
+                                                </div>
+                                            </nz-dropdown>
+                                        </th>
+                                        <th nz-th>
+                                            <span>单价(元)</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody nz-tbody>
+                                    <tr nz-tbody-tr *ngFor="let data of nzTable2.data" (click)="selectedRadio(data)" style="cursor: pointer;">
+                                        <td nz-td>
+                                            <label nz-radio [nzValue]="data" id="{{data.id}}">
+                                            </label>
+                                        </td>
+                                        <td nz-td> {{data.providerName}}</td>
+                                        <td nz-td>{{data.storeName}}</td>
+                                        <td nz-td>{{data.goodsName}}</td>
+                                        <td nz-td>{{data.goodsPrice}}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </nz-radio-group>
+                    </div>
+                </div>
+                <div class="wgj-section">
+                    <div class="wgj-section-header">
+                        <span>派单人信息</span>
+                    </div>
+                    <div class="wgj-section-content goods-detail">
+                        <div style="margin-bottom:16px">服务人员有疑问会反馈给您</div>
+                        <div nz-form-item nz-row>
+                            <div nz-form-label nz-col [nzSpan]="2"  style="text-align:left;letter-spacing:3px;width:88px">
+                                <label for="userName">
+                                    <span>联系人</span>
+                                </label>
+                            </div>
+                            <div nz-form-control nz-col [nzSpan]="6" [nzValidateStatus]="validateForm.controls['userName']">
+                                <nz-input [nzSize]="'large'" formControlName="userName" [nzId]="'userName'" [(ngModel)]="_submitParams.userName"></nz-input>
+                                <div nz-form-explain *ngIf="getFormControl('userName').dirty&&getFormControl('userName').hasError('required')">必填</div>
+                            </div>
+                        </div>
+
+                        <div nz-form-item nz-row>
+                            <div nz-form-label nz-col [nzSpan]="2"  style="text-align:left;width:88px">
+                                <label for="phone">
+                                    <span>联系电话</span>
+                                </label>
+                            </div>
+                            <div nz-form-control nz-col [nzSpan]="6" [nzValidateStatus]="validateForm.controls['phone']">
+                                <nz-input [nzSize]="'large'" formControlName="phone" [nzId]="'phone'" [(ngModel)]="_submitParams.phone"></nz-input>
+                                <div nz-form-explain *ngIf="getFormControl('phone').dirty&&getFormControl('phone').hasError('required')">请填写手机号码</div>
+                                <div nz-form-explain *ngIf="getFormControl('phone').dirty&&getFormControl('phone').hasError('account')">请填写正确手机号码</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <nz-back-top></nz-back-top>
+    </form>
+</nz-content>
+<div class="review-footer">
+    <nz-button-group [nzSize]="'large'">
+        <button nz-button [nzType]="'default'" (click)="handleCancel($event)">
+            <span>返 回</span>
+        </button>
+        <button nz-button [nzType]="'primary'" (click)="senderOrder($event)" [disabled]="!validateForm.valid || !goodsObj" [nzLoading]="_submitLoading">
+            <span>提 交</span>
+        </button>
+    </nz-button-group>
+</div>

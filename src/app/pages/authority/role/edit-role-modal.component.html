@@ -1,0 +1,20 @@
+<form nz-form [formGroup]="validateForm" >
+  <div nz-form-item nz-row>
+    <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+      <label for="name" nz-form-item-required>名称</label>
+    </div>
+    <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+      <nz-input [nzSize]="'large'" formControlName="name" [nzId]="'name'"></nz-input>
+      <div nz-form-explain>请输入名称!</div>
+    </div>
+  </div>
+</form>
+<div class="customize-footer">
+  <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="cancel($event)">
+    取消
+  </button>
+  <button nz-button [nzLoading]="isLoading" [nzType]="'primary'" [nzSize]="'large'" (click)="submit()">
+    保存
+  </button>
+</div>
+

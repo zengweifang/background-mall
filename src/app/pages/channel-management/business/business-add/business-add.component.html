@@ -1,0 +1,111 @@
+<div>
+  <form nz-form [nzType]="'horizontal'" [formGroup]="validateForm" (ngSubmit)="submitForm($event,validateForm.value)">
+    <div nz-form-item nz-row>
+      <div nz-form-label nz-col [nzSm]="8" [nzXs]="24">
+        <label for="name" nz-form-item-required>渠道名称</label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="getFormControl('name')">
+        <nz-input [nzSize]="'large'" formControlName="name"></nz-input>
+        <div nz-form-explain *ngIf="getFormControl('name').dirty&&getFormControl('name').hasError('name')">The input is not valid E-mail!</div>
+      </div>
+    </div>
+    <div nz-form-item nz-row>
+      <div nz-form-label nz-col [nzSm]="8" [nzXs]="24">
+        <label for="type" nz-form-item-required>渠道类型</label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="type">
+          <label nz-radio (click)="selectType(0)" [nzValue]="0">
+            <span>嵌入式</span>
+          </label>
+          <label nz-radio (click)="selectType(1)" [nzValue]="1">
+            <span>对接型</span>
+          </label>
+        </nz-radio-group>
+      </div>
+    </div>
+    <div nz-form-item nz-row>
+      <div nz-form-label nz-col [nzSm]="8" [nzXs]="24">
+        <label for="channelAccount" nz-form-item-required>渠道账号</label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="getFormControl('channelAccount')">
+        <nz-input [nzSize]="'large'" formControlName="channelAccount"></nz-input>
+        <div nz-form-explain *ngIf="getFormControl('channelAccount').dirty&&getFormControl('channelAccount').hasError('channelAccount')">The input is not valid E-mail!</div>
+      </div>
+    </div>
+    <div nz-form-item nz-row *ngIf="getFormControl('type').value===1">
+      <div nz-form-label nz-col [nzSm]="8" [nzXs]="24">
+        <label for="appid" nz-form-item-required>appID</label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="getFormControl('appid')">
+        <nz-input [nzSize]="'large'" formControlName="appid"></nz-input>
+        <div nz-form-explain *ngIf="getFormControl('appid').dirty&&getFormControl('appid').hasError('appid')">请输入 appID!</div>
+      </div>
+    </div>
+    <div nz-form-item nz-row *ngIf="getFormControl('type').value===1">
+      <div nz-form-label nz-col [nzSm]="8" [nzXs]="24">
+        <label for="appSecret" nz-form-item-required>app Secret</label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="getFormControl('appSecret')">
+        <nz-input [nzSize]="'large'" formControlName="appSecret"></nz-input>
+        <div nz-form-explain *ngIf="getFormControl('appSecret').dirty&&getFormControl('appSecret').hasError('appSecret')">请输入 app Secret!</div>
+      </div>
+    </div>
+    <div nz-form-item nz-row>
+      <div nz-form-label nz-col [nzSm]="8" [nzXs]="24">
+        <label for="customPrice" nz-form-item-required>
+            开启二级渠道功能
+          <nz-tooltip [nzTitle]="'二级渠道为此渠道的下属渠道，可建立多个与此渠道商品库相同的二级渠道，二级渠道可进行单独的订单统计和管理'">
+            <i nz-tooltip class="anticon anticon-exclamation-circle"></i>
+          </nz-tooltip>
+        </label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="hasChildren">
+          <label nz-radio [nzValue]="0">
+            <span>否</span>
+          </label>
+          <label nz-radio [nzValue]="1">
+            <span>是</span>
+          </label>
+        </nz-radio-group>
+      </div>
+    </div>
+    <div nz-form-item nz-row>
+      <div nz-form-label nz-col [nzSm]="8" [nzXs]="24">
+        <label for="customPrice" nz-form-item-required>需要定价功能</label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="customPrice">
+          <label nz-radio [nzValue]="0">
+            <span>否</span>
+          </label>
+          <label nz-radio [nzValue]="1">
+            <span>是</span>
+          </label>
+        </nz-radio-group>
+      </div>
+    </div>
+    <div nz-form-item nz-row>
+      <div nz-form-label nz-col [nzSm]="8" [nzXs]="24">
+        <label for="k3id">对应K3销售类型
+          <nz-tooltip [nzTitle]="'填写对应K3销售单类型，可自动将此渠道订单同步至K3系统。不填则不同步。对接型供应商一般会暴露我司品牌，则需在对接型渠道上保证同样商品同样价'">
+            <i nz-tooltip class="anticon anticon-exclamation-circle"></i>
+          </nz-tooltip>
+        </label>
+      </div>
+      <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="getFormControl('k3id')">
+        <nz-input [nzSize]="'large'" formControlName="k3id"></nz-input>
+        <div nz-form-explain *ngIf="getFormControl('k3id').dirty&&getFormControl('k3id').hasError('k3id')">The input is not valid E-mail!</div>
+      </div>
+    </div>
+  </form>
+  <div class="customize-footer">
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+      取消
+    </button>
+    <button nz-button [nzLoading]="_loading" [nzType]="'primary'" [nzSize]="'large'" (click)="_submitForm($event,validateForm.value)">
+      保存
+    </button>
+  </div>
+</div>
