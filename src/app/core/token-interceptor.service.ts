@@ -63,17 +63,17 @@ export class TokenInterceptor implements HttpInterceptor {
           headers: req.headers.set('Authorization', `Bearer ${access_token}`),
           withCredentials: true
         });
-        return next.handle(tokenReq).do(event => { }).catch(err => {
-            if (err["status"]) {
-              if (err.status === 401) {
-                console.log('token 失效');
-                utils.removeLocalStorage("authToken")
-                utils.clearLocalStorage();
-                this.goLogin();
-              }
-            }
-            return Observable.throw(err);
-         });
+        // return next.handle(tokenReq).do(event => { }).catch(err => {
+        //     if (err["status"]) {
+        //       if (err.status === 401) {
+        //         console.log('token 失效');
+        //         utils.removeLocalStorage("authToken")
+        //         utils.clearLocalStorage();
+        //         this.goLogin();
+        //       }
+        //     }
+        //     return Observable.throw(err);
+        //  });
       }
     } else {
       return next.handle(req);

@@ -39,7 +39,9 @@ export class LoginComponent implements OnInit {
 
   _submitForm(loginForm) {
     this._loading = true;
+    console.log(this.loginParam.userName)
     utils.setSessionStorage('userName', this.loginParam.userName);
+    this._loading = false;
     // this.loginService.login(this.loginParam.userName,this.loginParam.password).then(res => {
     //   this._loading = false;
     //   this.store.dispatch({type: LOGIN});

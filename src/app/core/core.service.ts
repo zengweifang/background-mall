@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import {  } from "module";
 import { AjaxService } from '../shared/services/ajax.service';
 import { service, config } from './core.config';
 

@@ -131,31 +131,31 @@ export class ApartmentListComponent implements OnInit {
 		})
 	}
 
-	//新增公寓
-	addApartment() {
-		// const subAddModal = this.modalService.open({
-		// 	title: '新增公寓',
-		// 	content: AddApartmentModalComponent,
-		// 	onOk() {
-		// 		console.log('click ok')
-		// 	},
-		// 	onCancel() {
-		// 		console.log('click cancel');
-		// 	},
-		// 	footer: false
-		// });
-		// subAddModal.subscribe(result => {
-		// 	if (result.status) {
-		// 		if (!this.codeHelperService.isServerError(result)) {
-		// 			this._refreshData();
-		// 			this.message.create('success', result.message);
-		// 		} else {
-		// 			this.message.create('error', result.message);
-		// 		}
-		// 	}
+	//新增
+	add() {
+		const subAddModal = this.modalService.open({
+			title: '新增banner图',
+			content: AddApartmentModalComponent,
+			onOk() {
+				console.log('click ok')
+			},
+			onCancel() {
+				console.log('click cancel');
+			},
+			footer: false
+		});
+		subAddModal.subscribe(result => {
+			if (result.status) {
+				if (!this.codeHelperService.isServerError(result)) {
+					this._refreshData();
+					this.message.create('success', result.message);
+				} else {
+					this.message.create('error', result.message);
+				}
+			}
 
-		// })
-		this.router.navigate(['/apartment/add/addModal'])
+		})
+		// this.router.navigate(['/apartment/add/addModal'])
 
 
 	}

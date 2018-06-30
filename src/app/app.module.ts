@@ -15,11 +15,7 @@ import { SharedModule } from './shared/shared.module';
 import { LayoutModule } from './layout/layout.module';
 
 // 引入pages下module
-import { ChannelCheckOrderModule } from './pages/channel-management/channel-check-order/channel-check-order.module';
-import { BusinessModule } from './pages/channel-management/business/business.module';
 import { ApartmentModule } from "./pages/apartment/apartment.module";
-import { GoodsModule } from "./pages/goods/goods.module";
-import { AuthorityModule } from "./pages/authority/authority.module";
 
 import { AppComponent } from './app.component';
 import { SiderComponent } from './layout/sider/sider.component';
@@ -59,11 +55,7 @@ import { pageLoading } from './shared/reducer/page-load';
     CoreModule,
     SharedModule,
     LayoutModule,
-    ChannelCheckOrderModule,
-    BusinessModule,
     ApartmentModule,
-    GoodsModule,
-    AuthorityModule
   ],
 
   providers: [{provide: NZ_MESSAGE_CONFIG, useValue: { nzDuration: 3000 }},LoginService,CodeHelperService,ValidatorService,CoreService],
