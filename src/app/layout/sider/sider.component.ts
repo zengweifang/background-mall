@@ -30,7 +30,7 @@ export class SiderComponent implements OnInit {
 				},
 				{
 					name:'九宫格',
-					url:'#/basicData/attribute/list/list?from=1'
+					url:'#/clubs/list/list'
 				}
 			]
 		}

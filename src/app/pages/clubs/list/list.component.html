@@ -1,7 +1,7 @@
 <nz-content style="margin:0 16px;">
     <nz-breadcrumb style="margin:12px 0;">
         <nz-breadcrumb-item>尊享vip后台</nz-breadcrumb-item>
-        <nz-breadcrumb-item>banner图列表</nz-breadcrumb-item>
+        <nz-breadcrumb-item>九宫格</nz-breadcrumb-item>
     </nz-breadcrumb>
     <div style="padding:24px; background: #fff; min-height: 360px;">
         <div class="table-operations">
@@ -53,10 +53,7 @@
                 <thead nz-thead>
                     <tr>
                         <th>序列号</th>
-                        <th>名称</th>
                         <th>跳转地址</th>
-                        <th>描述</th>
-                        <th>排序</th>
                         <th>图片</th>
                         <th>操作</th>
                     </tr>
@@ -64,10 +61,7 @@
                 <tbody nz-tbody>
                     <tr nz-tbody-tr *ngFor="let data of nzTable.data">
                         <td nz-td>{{data.id}}</td>
-                        <td nz-td>{{data.name}}</td>
                         <td nz-td>{{data.url}}</td>
-                        <td nz-td>{{data.description}}</td>
-                        <td nz-td>{{data.sort}}</td>
                         <td nz-td><img src="{{data.imageUrl}}" alt="" width="80px"></td>
                         <td nz-td>
                             <span>

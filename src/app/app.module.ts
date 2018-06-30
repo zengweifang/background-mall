@@ -16,10 +16,10 @@ import { LayoutModule } from './layout/layout.module';
 
 // 引入pages下module
 import { ApartmentModule } from "./pages/apartment/apartment.module";
+import { ClubsModule } from "./pages/clubs/clubs.module";
 
 import { AppComponent } from './app.component';
 import { SiderComponent } from './layout/sider/sider.component';
-import { ModalTextComponent } from './pages/base/base-attribute/modalText.component';
 import { LoginComponent } from './pages/login/login.component';
 
 // 引入工具类
@@ -38,7 +38,6 @@ import { pageLoading } from './shared/reducer/page-load';
   declarations: [
     AppComponent,
     SiderComponent,
-    ModalTextComponent,
     LoginComponent
   ],
   imports: [
@@ -56,11 +55,12 @@ import { pageLoading } from './shared/reducer/page-load';
     SharedModule,
     LayoutModule,
     ApartmentModule,
+    ClubsModule
   ],
 
   providers: [{provide: NZ_MESSAGE_CONFIG, useValue: { nzDuration: 3000 }},LoginService,CodeHelperService,ValidatorService,CoreService],
 
   bootstrap: [AppComponent],
-  entryComponents:[ModalTextComponent]
+  entryComponents:[]
 })
 export class AppModule { }

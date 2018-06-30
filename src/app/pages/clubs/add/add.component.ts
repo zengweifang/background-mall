@@ -1,21 +1,21 @@
 import { Component,Input,OnInit } from "@angular/core";
 import { NzModalSubject } from "ng-zorro-antd";
 import { FormBuilder,FormGroup,Validators,FormControl } from "@angular/forms";
-import { ApartmentService } from "../apartment.service";
+import { ClubsService } from "../clubs.service";
 import { ValidatorService } from "../../../core/validator.service";
 import { Router } from '@angular/router';
 
 @Component({
-    selector:'edit-modal-component',
-    templateUrl:'./editModal.component.html',
+    selector:'add-clubs-component',
+    templateUrl:'./add.component.html',
     styleUrls:['../../../app.component.scss']
 })
 
-export class EditApartmentModalComponent implements OnInit{
+export class AddClubsComponent implements OnInit{
     validateForm: FormGroup;
     _id:string;
     isConfirmLoading = false;
-    editParams = {};
+    addParams = {};
     
     @Input()
     set id(value:string){
@@ -23,7 +23,7 @@ export class EditApartmentModalComponent implements OnInit{
     }
     emitDataOutside(){
         // this.isConfirmLoading = true;
-        // this.apartmentService.saveApartmentDetail(this.apartmentInfo).then(res => {
+        // this.clubsService.addApartment(this.apartmentInfo).then(res => {
         //     res["status"] = true;
         //     setTimeout(() => {
         //         this.isConfirmLoading = false;
@@ -33,53 +33,34 @@ export class EditApartmentModalComponent implements OnInit{
             
         // })
 
-        // this.apartmentService.update(this.editParams).then(res=>{
+        // this.clubsService.add(this.addParams).then(res=>{
         //     console.log(res)
+        //     this.router.navigate(['/list/list'])
         // })
-        this.router.navigate(['/list/list'])//test
+        this.router.navigate(['/clubs/list/list'])//test
     }
 
     handleCancel(e){
         // this.subject.destroy('onCancel');
         history.back()
     }
-
+    
     constructor(private subject:NzModalSubject,
         private fb:FormBuilder,
-        private apartmentService:ApartmentService,
+        private clubsService:ClubsService,
         private validatorService:ValidatorService,
         private router:Router){
         this.subject.on('onDestrory',()=>{
             console.log('destroy');
         })
-
-        var id = 1;
-        // this.getBannerInfo(id)
-        this.editParams = {
-            "id": "3091804932271473664",
-            "name": "banner图1",
-            "imageUrl": "http://bpic.588ku.com/back_pic/03/70/72/5257b6c12d89875.jpg!r850/fw/800",
-            "url": "/index",
-            "sort": 0,
-            "description": "banner图测试"
-          }
     }
-
-    getBannerInfo(id){
-        this.apartmentService.getBannerInfo(id).then(res=>{
-            console.log(res)
-        })
-    }
-
+    
     ngOnInit(){
         this.validateForm = this.fb.group({
-            name:["",[this.validatorService.nameValidator]],
+            num:["",[this.validatorService.nameValidator]],
             imageUrl:["",[this.validatorService.nameValidator]],
-            url:["",[this.validatorService.nameValidator]],
-            sort:["",[this.validatorService.nameValidator]],
-            description:["",[this.validatorService.nameValidator]]
+            url:["",[this.validatorService.nameValidator]]
         })
-        // this.apartmentService.getApartmentDetail(this._id).then(res => this.apartmentInfo = res.data)
     }
 
     getFormControl(name){

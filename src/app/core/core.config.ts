@@ -44,36 +44,6 @@ switch(currentUrl){
         service.downUrl='https://test.wang-guanjia.com';
         service.appBackground = "https://development.wang-guanjia.com/app-background";
         break;
-    case test:
-        service.commonService = 'https://test-app.wang-guanjia.com';
-        service.oauthUrl = "https://test.wang-guanjia.com/oauth-server";
-        service.resourceService = "https://test.wang-guanjia.com";
-        service.uploadUrl = 'https://test.wang-guanjia.com/resource/upload';//测试服务器上传地址
-        service.uploadReturnUrl = 'https://test.wang-guanjia.com/static/img/';//测试服务器地址
-        service.staticUrl = 'https://test.wang-guanjia.com/resource';
-        service.downUrl='https://test.wang-guanjia.com';
-        service.appBackground = "https://test.wang-guanjia.com/app-background";
-        break;
-    case pre_product:
-        service.commonService = 'https://p-app.wang-guanjia.com';
-        service.oauthUrl = "https://p-api.wang-guanjia.com/oauth-server";
-        service.resourceService = "https://p-app.wang-guanjia.com";
-        service.uploadUrl = 'https://static.wang-guanjia.com/upload';
-        service.uploadReturnUrl ='https://static.wang-guanjia.com/static/img/';
-        service.staticUrl = 'https://p-api.wang-guanjia.com/resource';
-        service.downUrl='https://p-api.wang-guanjia.com';
-        service.appBackground = "https://p-app.wang-guanjia.com/app-background";
-        break;
-    case product:
-        service.commonService = 'https://app.wang-guanjia.com';
-        service.oauthUrl = "https://api.wang-guanjia.com/oauth-server";
-        service.resourceService = "https://app.wang-guanjia.com";
-        service.uploadUrl = 'https://static.wang-guanjia.com/upload';
-        service.uploadReturnUrl ='https://static.wang-guanjia.com/static/img/';
-        service.staticUrl = 'https://static.wang-guanjia.com';
-        service.downUrl='https://static.wang-guanjia.com';
-        service.appBackground = "https://app.wang-guanjia.com/app-background";
-        break;
 }
 
 export {config,service}

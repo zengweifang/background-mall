@@ -17,17 +17,12 @@ import { LoginComponent } from './pages/login/login.component'
 // ]
 
 const routes : Routes = [{
-  path: 'basicData/attribute/list',
-  loadChildren: 'app/pages/base/base-attribute/base-attribute.module#BaseAttributeModule'
-},{
-  path: 'oauthRegister/clientRegister',
-  loadChildren: 'app/pages/oauth-register/oauth-register.module#OauthRigisterModule'
-}, {
-  path: 'oauthRegister/list',
-  loadChildren: 'app/pages/oauth-register/oauth-register.module#OauthRigisterModule'
-},{
   path: 'apartment',
   loadChildren: 'app/pages/apartment/apartment.module#ApartmentModule'
+},
+{
+  path: 'clubs',
+  loadChildren: 'app/pages/clubs/clubs.module#ClubsModule'
 },{
   path: 'login',
   component: LoginComponent

@@ -3,19 +3,17 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
-import { ApartmentService } from '../apartment.service';
+import { ClubsService } from '../clubs.service';
 import { CodeHelperService } from "../../../core/code-helper.service";
-import { EditApartmentModalComponent } from "../edit/editModal.component";
-import { AddApartmentModalComponent } from "../add/addModal.component";
 
 
 
 @Component({
-	selector: 'client-register',
+	selector: 'clubs-list',
 	templateUrl: './list.component.html',
 	styleUrls: ['./list.component.css']
 })
-export class ApartmentListComponent implements OnInit {
+export class ClubsListComponent implements OnInit {
 	validateForm: FormGroup;
 	_loading = true;
 	//列表初始值
@@ -38,7 +36,7 @@ export class ApartmentListComponent implements OnInit {
 
 	constructor(private fb: FormBuilder,
 		private message: NzMessageService,
-		private apartmentService: ApartmentService,
+		private clubsService: ClubsService,
 		private router: Router,
 		private modalService: NzModalService,
 		private codeHelperService: CodeHelperService) {
@@ -47,7 +45,7 @@ export class ApartmentListComponent implements OnInit {
 	_refreshData = () => {
 		console.log(1)
 		this._loading = true;
-		// this.apartmentService.getApartmentList(this._params).then(res => {
+		// this.clubsService.getApartmentList(this._params).then(res => {
 		// 	this._loading = false;
 		// 	if (res.data) {
 		// 		this._dataSet = res.data;
@@ -66,29 +64,67 @@ export class ApartmentListComponent implements OnInit {
 		// 	pageNum:1,
 		// 	pageSize:10
 		// }
-		// this.apartmentService.getBannerList(page).then(res=>{
+		// this.clubsService.getCubesList(page).then(res=>{
 		// 	console.log(res)
 		// })
 
 		this._loading = false;
 		this._dataSet.dataList = [
 			{
-			  "id": "3091807393395212288",
-			  "name": "banner2",
-			  "imageUrl": "http://bpic.588ku.com/back_pic/03/70/72/5257b6c12d89875.jpg!",
-			  "url": "/index",
-			  "sort": 1,
-			  "description": "banner图测试"
+			  "id": "3091804935614645248",
+			  "num": 1,
+			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
+			  "url": "/index"
 			},
 			{
-			  "id": "3091804932271473664",
-			  "name": "banner图1",
-			  "imageUrl": "http://bpic.588ku.com/back_pic/03/70/72/5257b6c12d89875.jpg!r850/fw/800",
-			  "url": "/index",
-			  "sort": 0,
-			  "description": "banner图测试"
+			  "id": "3091804942328316928",
+			  "num": 2,
+			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
+			  "url": "/index"
+			},
+			{
+			  "id": "3091804942844593152",
+			  "num": 3,
+			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
+			  "url": "/index"
+			},
+			{
+			  "id": "3091804943446148096",
+			  "num": 4,
+			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
+			  "url": "/index"
+			},
+			{
+			  "id": "3091804943995274240",
+			  "num": 5,
+			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
+			  "url": "/index"
+			},
+			{
+			  "id": "3091804944719250432",
+			  "num": 6,
+			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
+			  "url": "/index"
+			},
+			{
+			  "id": "3091804945150657536",
+			  "num": 7,
+			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
+			  "url": "/index"
+			},
+			{
+			  "id": "3091804946062607360",
+			  "num": 8,
+			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
+			  "url": "/index"
+			},
+			{
+			  "id": "3091804946588255232",
+			  "num": 9,
+			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
+			  "url": "/index"
 			}
-		  ]
+		]
 	};
 
 	filter() {
@@ -126,7 +162,7 @@ export class ApartmentListComponent implements OnInit {
 		// 		}
 		// 	}
 		// })
-		this.router.navigate(['/clubs/edit/edit'])
+		this.router.navigate(['/apartment/edit/editModal'])
 	}
 
 	//新增
@@ -153,13 +189,13 @@ export class ApartmentListComponent implements OnInit {
 		// 	}
 
 		// })
-		this.router.navigate(['/apartment/add/addModal'])
+		this.router.navigate(['/clubs/add/add'])
 
 
 	}
 
 	delete(data){
-		// this.apartmentService.delete(data).then(res=>{
+		// this.clubsService.delete(data).then(res=>{
 		// 	console.log(res)
 		// 	this._refreshData();
 		// })
