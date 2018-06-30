@@ -3,17 +3,17 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
-import { ClubsService } from '../clubs.service';
+import { CategoryService } from '../category.service';
 import { CodeHelperService } from "../../../core/code-helper.service";
 
 
 
 @Component({
-	selector: 'clubs-list',
+	selector: 'category-list',
 	templateUrl: './list.component.html',
 	styleUrls: ['./list.component.css']
 })
-export class ClubsListComponent implements OnInit {
+export class CategoryListComponent implements OnInit {
 	validateForm: FormGroup;
 	_loading = true;
 	//列表初始值
@@ -36,7 +36,7 @@ export class ClubsListComponent implements OnInit {
 
 	constructor(private fb: FormBuilder,
 		private message: NzMessageService,
-		private clubsService: ClubsService,
+		private CategoryService: CategoryService,
 		private router: Router,
 		private modalService: NzModalService,
 		private codeHelperService: CodeHelperService) {
@@ -45,7 +45,7 @@ export class ClubsListComponent implements OnInit {
 	_refreshData = () => {
 		console.log(1)
 		this._loading = true;
-		// this.clubsService.getApartmentList(this._params).then(res => {
+		// this.CategoryService.getApartmentList(this._params).then(res => {
 		// 	this._loading = false;
 		// 	if (res.data) {
 		// 		this._dataSet = res.data;
@@ -64,67 +64,38 @@ export class ClubsListComponent implements OnInit {
 		// 	pageNum:1,
 		// 	pageSize:10
 		// }
-		// this.clubsService.getCubesList(page).then(res=>{
+		// this.CategoryService.getCubesList(page).then(res=>{
 		// 	console.log(res)
 		// })
 
 		this._loading = false;
 		this._dataSet.dataList = [
 			{
-			  "id": "3091804935614645248",
-			  "num": 1,
-			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
-			  "url": "/index"
+			  "id": "3091805510658262016",
+			  "name": "快消",
+			  "sort": 0
 			},
 			{
-			  "id": "3091804942328316928",
-			  "num": 2,
-			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
-			  "url": "/index"
+			  "id": "3091805514339353600",
+			  "name": "美妆",
+			  "sort": 1
 			},
 			{
-			  "id": "3091804942844593152",
-			  "num": 3,
-			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
-			  "url": "/index"
+			  "id": "3091805515135812608",
+			  "name": "奢侈品",
+			  "sort": 2
 			},
 			{
-			  "id": "3091804943446148096",
-			  "num": 4,
-			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
-			  "url": "/index"
+			  "id": "3091805515987747840",
+			  "name": "运动",
+			  "sort": 3
 			},
 			{
-			  "id": "3091804943995274240",
-			  "num": 5,
-			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
-			  "url": "/index"
-			},
-			{
-			  "id": "3091804944719250432",
-			  "num": 6,
-			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
-			  "url": "/index"
-			},
-			{
-			  "id": "3091804945150657536",
-			  "num": 7,
-			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
-			  "url": "/index"
-			},
-			{
-			  "id": "3091804946062607360",
-			  "num": 8,
-			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
-			  "url": "/index"
-			},
-			{
-			  "id": "3091804946588255232",
-			  "num": 9,
-			  "imageUrl": "https://img11.360buyimg.com/n7/jfs/t14947/152/2547272843/249018/b643c07c/5aa8c8a8N7cc84d18.jpg",
-			  "url": "/index"
+			  "id": "3091805517268009984",
+			  "name": "办公",
+			  "sort": 4
 			}
-		]
+		  ]
 	};
 
 	filter() {
@@ -162,7 +133,7 @@ export class ClubsListComponent implements OnInit {
 		// 		}
 		// 	}
 		// })
-		this.router.navigate(['/clubs/edit/edit'])
+		this.router.navigate(['/category/edit/edit'])
 	}
 
 	//新增
@@ -189,13 +160,13 @@ export class ClubsListComponent implements OnInit {
 		// 	}
 
 		// })
-		this.router.navigate(['/clubs/add/add'])
+		this.router.navigate(['/category/add/add'])
 
 
 	}
 
 	delete(data){
-		// this.clubsService.delete(data).then(res=>{
+		// this.CategoryService.delete(data).then(res=>{
 		// 	console.log(res)
 		// 	this._refreshData();
 		// })

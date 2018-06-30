@@ -31,6 +31,10 @@ export class SiderComponent implements OnInit {
 				{
 					name:'九宫格',
 					url:'#/clubs/list/list'
+				},
+				{
+					name:'运营类目',
+					url:'#/category/list/list'
 				}
 			]
 		}

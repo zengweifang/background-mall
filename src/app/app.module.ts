@@ -17,6 +17,7 @@ import { LayoutModule } from './layout/layout.module';
 // 引入pages下module
 import { ApartmentModule } from "./pages/apartment/apartment.module";
 import { ClubsModule } from "./pages/clubs/clubs.module";
+import { CategoryModule } from "./pages/category/category.module";
 
 import { AppComponent } from './app.component';
 import { SiderComponent } from './layout/sider/sider.component';
@@ -55,7 +56,8 @@ import { pageLoading } from './shared/reducer/page-load';
     SharedModule,
     LayoutModule,
     ApartmentModule,
-    ClubsModule
+    ClubsModule,
+    CategoryModule
   ],
 
   providers: [{provide: NZ_MESSAGE_CONFIG, useValue: { nzDuration: 3000 }},LoginService,CodeHelperService,ValidatorService,CoreService],

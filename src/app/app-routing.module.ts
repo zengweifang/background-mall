@@ -23,6 +23,10 @@ const routes : Routes = [{
 {
   path: 'clubs',
   loadChildren: 'app/pages/clubs/clubs.module#ClubsModule'
+},
+{
+  path: 'category',
+  loadChildren: 'app/pages/category/category.module#CategoryModule'
 },{
   path: 'login',
   component: LoginComponent
