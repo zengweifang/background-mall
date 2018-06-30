@@ -84,7 +84,7 @@ path: 'channelManagement/operation',
   component: LoginComponent
 },{
   path: '',
-  redirectTo: '/channelManagement/channelCheckOrder/channelServiceOrderList',
+  redirectTo: '/apartment/list/list',
   pathMatch: 'full'
 }];
 

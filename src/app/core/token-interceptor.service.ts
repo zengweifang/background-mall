@@ -49,6 +49,8 @@ export class TokenInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
+
+
     let access_token = utils.getLocalStorage('access_token')
     if (req.url.split('oauth-service')[1] != '/oauth/rest_token' && req.url.split('background-manage')[1] != '/login/login') {
       if (!access_token) {

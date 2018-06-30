@@ -19,7 +19,22 @@ interface AppState {
 	styleUrls: ['./sider.component.scss']
 })
 export class SiderComponent implements OnInit {
-	menu: Menu[] = [];
+	// menu: Menu[] = [];
+	menu = [
+		{
+			name:'尊享vip后台',
+			subMenus:[
+				{
+					name:'banner图',
+					url:'#/apartment/list/list'
+				},
+				{
+					name:'九宫格',
+					url:'#/basicData/attribute/list/list?from=1'
+				}
+			]
+		}
+	];
 	visible: boolean;
 	isCollapsed = false;
 	userName = '';
@@ -34,7 +49,8 @@ export class SiderComponent implements OnInit {
 
 
 	ngOnInit() {
-		const userId =  utils.getSessionStorage('userId');
+		// const userId =  utils.getSessionStorage('userId');
+		const userId = true;
 		if (userId) {
 			this.isLogin = true;
 			this.store.dispatch({type: LOGIN});
@@ -43,9 +59,9 @@ export class SiderComponent implements OnInit {
 			console.log(res);
 			this.isLogin = res;
 			this.userName = utils.getSessionStorage('userName');
-			if (res) {
-				this.getMenu();
-			}
+			// if (res) {
+			// 	this.getMenu();
+			// }
 		});
 
 		this._spinningOb.subscribe(res => {
@@ -54,11 +70,12 @@ export class SiderComponent implements OnInit {
 			}, 0);
 		});
 	}
-	getMenu(): void {
-		const userId =  utils.getSessionStorage('userId');
-		this.siderService.getMenu(userId)
-			.then(response => this.menu = response)
-	}
+
+	// getMenu(): void {
+	// 	const userId =  utils.getSessionStorage('userId');
+	// 	this.siderService.getMenu(userId)
+	// 		.then(response => this.menu = response)
+	// }
 
 	clickMe(): void {
 		this.store.dispatch({type: LOGOUT})

@@ -45,21 +45,49 @@ export class ApartmentListComponent implements OnInit {
 	}
 
 	_refreshData = () => {
-		this._loading = true;
-		this.apartmentService.getApartmentList(this._params).then(res => {
-			this._loading = false;
-			if (res.data) {
-				this._dataSet = res.data;
+		// this._loading = true;
+		// this.apartmentService.getApartmentList(this._params).then(res => {
+		// 	this._loading = false;
+		// 	if (res.data) {
+		// 		this._dataSet = res.data;
+		// 	}
+		// 	else {
+		// 		this._dataSet = {
+		// 			dataList: [],
+		// 			page: { totalCount: 0 }
+		// 		};
+		// 	}
+		// }, function () {
+		// 	this._loading = false;
+		// })
+
+		// var page={
+		// 	pageNum:1,
+		// 	pageSize:10
+		// }
+		// this.apartmentService.getBannerList(page).then(res=>{
+		// 	console.log(res)
+		// })
+
+		this._loading = false;
+		this._dataSet.dataList = [
+			{
+			  "id": "3091807393395212288",
+			  "name": "banner2",
+			  "imageUrl": "http://bpic.588ku.com/back_pic/03/70/72/5257b6c12d89875.jpg!",
+			  "url": "/index",
+			  "sort": 1,
+			  "description": "banner图测试"
+			},
+			{
+			  "id": "3091804932271473664",
+			  "name": "banner图1",
+			  "imageUrl": "http://bpic.588ku.com/back_pic/03/70/72/5257b6c12d89875.jpg!r850/fw/800",
+			  "url": "/index",
+			  "sort": 0,
+			  "description": "banner图测试"
 			}
-			else {
-				this._dataSet = {
-					dataList: [],
-					page: { totalCount: 0 }
-				};
-			}
-		}, function () {
-			this._loading = false;
-		})
+		  ]
 	};
 
 	filter() {

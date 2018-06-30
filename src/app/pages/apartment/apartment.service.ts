@@ -26,6 +26,9 @@ export class ApartmentService {
 	private cancelServicePeriodUrl = service.commonService+"/background-manage/apartment/work-order/cancelServicePeriod";
 	private satistyUrl=service.commonService+"/background-manage/order-comment/comment";
 
+	private getBannerListUrl=service.commonService+"/banners";
+	
+
 	private handleError(error: any): Promise<any> {
 		return Promise.reject(error.message || error);
 	};
@@ -142,6 +145,18 @@ export class ApartmentService {
 	commont(data):Promise<any>{
 		return this.ajaxService.post(this.satistyUrl,data);
 	}
+
+
+
+	getBannerList(data):Promise<any>{
+		var temp = new URLSearchParams();
+		temp.set('pageSize',data.pageSize)
+		temp.set('pageNum',data.pageNum)
+		temp.set('TOKEN',data.TOKEN)
+		console.log(temp)
+		return this.ajaxService.get(this.getBannerListUrl,{params:temp});
+	}
+	
 	
 
 

@@ -40,15 +40,16 @@ export class LoginComponent implements OnInit {
   _submitForm(loginForm) {
     this._loading = true;
     utils.setSessionStorage('userName', this.loginParam.userName);
-    this.loginService.login(this.loginParam.userName,this.loginParam.password).then(res => {
-      this._loading = false;
-      this.store.dispatch({type: LOGIN});
-      this.router.navigate(['/']);
-    }).catch(err => {
-      this._loading = false;
-      this.store.dispatch({type: LOGOUT});
-      this.message.create('error', '登录失败');
-    })
+    // this.loginService.login(this.loginParam.userName,this.loginParam.password).then(res => {
+    //   this._loading = false;
+    //   this.store.dispatch({type: LOGIN});
+    //   this.router.navigate(['/']);
+    // }).catch(err => {
+    //   this._loading = false;
+    //   this.store.dispatch({type: LOGOUT});
+    //   this.message.create('error', '登录失败');
+    // })
+    this.router.navigate(['/']);
   }
   reset(){
     this.loginParam.userName = '';

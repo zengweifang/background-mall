@@ -1,13 +1,13 @@
 <nz-content style="margin:0 16px;">
     <nz-breadcrumb style="margin:12px 0;">
-        <nz-breadcrumb-item>公寓管理</nz-breadcrumb-item>
-        <nz-breadcrumb-item>公寓列表</nz-breadcrumb-item>
+        <nz-breadcrumb-item>尊享vip后台</nz-breadcrumb-item>
+        <nz-breadcrumb-item>banner图列表</nz-breadcrumb-item>
     </nz-breadcrumb>
     <div style="padding:24px; background: #fff; min-height: 360px;">
         <div class="table-operations">
-            <button nz-button [nzType]="'primary'" (click)="addApartment()">新增公寓</button>
+            <button nz-button [nzType]="'primary'" (click)="addApartment()">新增</button>
         </div>
-        <form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" class="ant-advanced-search-form" style="margin-top: 16px;line-height: 32px">
+        <!-- <form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" class="ant-advanced-search-form" style="margin-top: 16px;line-height: 32px">
             <div nz-row>
                 <div nz-col [nzLg]="24" [nzXl]="16">
                     <div nz-col [nzLg]="8" [nzXl]="8">
@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-        </form>
+        </form> -->
 
         <div class="search-result-list">
             <nz-table #nzTable [nzAjaxData]="_dataSet.dataList" nzShowSizeChanger [nzLoading]="_loading" [nzTotal]="_dataSet.page.totalCount"
@@ -52,27 +52,28 @@
                 (nzPageSizeChange)="_refreshData()" [nzShowTotal]="true" [nzSize]="'middle'">
                 <thead nz-thead>
                     <tr>
-                        <th>公寓品牌名称</th>
-                        <th>负责人联系方式</th>
-                        <th>房源数量</th>
-                        <th>状态</th>
+                        <th>序列号</th>
+                        <th>名称</th>
+                        <th>跳转地址</th>
+                        <th>描述</th>
+                        <th>排序</th>
+                        <th>图片</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody nz-tbody>
                     <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+                        <td nz-td>{{data.id}}</td>
                         <td nz-td>{{data.name}}</td>
-                        <td nz-td>{{data.phone}}</td>
-                        <td nz-td>{{data.count}}</td>
-                        <td nz-td>
-                            <nz-tag [nzColor]="'green'" *ngIf="data.status == 0">{{data.status | apartmentStatusPipe}}</nz-tag>
-                            <nz-tag [nzColor]="'#f50'" *ngIf="data.status == 1">{{data.status | apartmentStatusPipe}}</nz-tag>
-                        </td>
+                        <td nz-td>{{data.url}}</td>
+                        <td nz-td>{{data.description}}</td>
+                        <td nz-td>{{data.sort}}</td>
+                        <td nz-td><img src="{{data.imageUrl}}" alt="" width="80px"></td>
                         <td nz-td>
                             <span>
-                                <a (click)="toHousing(data)">房源管理</a>
+                                <a (click)="toHousing(data)">修改</a>
                                 <span nz-table-divider></span>
-                                <a (click)="toDetailModal(data)">编辑／查看</a>
+                                <a (click)="toDetailModal(data)">删除</a>
                             </span>
                         </td>
                     </tr>
