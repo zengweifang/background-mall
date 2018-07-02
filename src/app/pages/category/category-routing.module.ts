@@ -7,8 +7,8 @@ import { EditCategoryComponent } from "./edit/edit.component";
 
 const routes : Routes = [
     { path: 'list/list', component: CategoryListComponent },
-    { path: 'category/add/add',component:AddCategoryComponent},
-    { path: 'category/edit/edit',component:EditCategoryComponent}
+    { path: 'add/add',component:AddCategoryComponent},
+    { path: 'edit/edit',component:EditCategoryComponent}
 ]
 
 

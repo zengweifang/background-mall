@@ -14,11 +14,6 @@ import { SharedModule } from './shared/shared.module';
 // 引入layout.module
 import { LayoutModule } from './layout/layout.module';
 
-// 引入pages下module
-import { BannerModule } from "./pages/banner/banner.module";
-import { ClubsModule } from "./pages/clubs/clubs.module";
-import { CategoryModule } from "./pages/category/category.module";
-
 import { AppComponent } from './app.component';
 import { SiderComponent } from './layout/sider/sider.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -55,9 +50,9 @@ import { pageLoading } from './shared/reducer/page-load';
     CoreModule,
     SharedModule,
     LayoutModule,
-    BannerModule,
-    ClubsModule,
-    CategoryModule
+    // BannerModule,
+    // ClubsModule,
+    // CategoryModule
   ],
 
   providers: [{provide: NZ_MESSAGE_CONFIG, useValue: { nzDuration: 3000 }},LoginService,CodeHelperService,ValidatorService,CoreService],

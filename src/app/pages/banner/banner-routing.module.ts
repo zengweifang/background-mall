@@ -7,8 +7,8 @@ import { EditBannerComponent } from "./edit/edit.component";
 
 const routes : Routes = [
     { path: 'list/list', component: BannerListComponent },
-    { path: 'apartment/add/add',component:AddBannerComponent},
-    { path: 'apartment/edit/edit',component:EditBannerComponent}
+    { path: 'add/add',component:AddBannerComponent},
+    { path: 'edit/edit',component:EditBannerComponent}
 ]
 
 

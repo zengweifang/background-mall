@@ -21,13 +21,13 @@ let test = "test.zunxiangviplus.com";
 let product = "app.zunxiangviplus.com";
 switch (currentUrl) {
     case localhost:
-        service.commonService = 'https://test.zunxiangviplus.com';
+        service.commonService = 'https://test.zunxiangviplus.com/steward';
         break;
     case test:
-        service.commonService = 'https://test.zunxiangviplus.com';
+        service.commonService = 'https://test.zunxiangviplus.com/steward';
         break;
     case product:
-        service.commonService = 'https://app.zunxiangviplus.com';
+        service.commonService = 'https://app.zunxiangviplus.com/steward';
         break;
 }
 

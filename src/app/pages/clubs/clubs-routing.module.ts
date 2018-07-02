@@ -7,8 +7,8 @@ import { EditClubsComponent } from "./edit/edit.component";
 
 const routes : Routes = [
     { path: 'list/list', component: ClubsListComponent },
-    { path: 'clubs/add/add',component:AddClubsComponent},
-    { path: 'clubs/edit/edit',component:EditClubsComponent}
+    { path: 'add/add',component:AddClubsComponent},
+    { path: 'edit/edit',component:EditClubsComponent}
 ]
 
 

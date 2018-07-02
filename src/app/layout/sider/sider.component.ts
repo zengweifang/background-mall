@@ -35,6 +35,14 @@ export class SiderComponent implements OnInit {
 				{
 					name:'运营类目',
 					url:'#/category/list/list'
+				},
+				{
+					name:'基础类目',
+					url:'#/base/list/list'
+				},
+				{
+					name:'商品池',
+					url:'#/commoditypools/list/list'
 				}
 			]
 		}

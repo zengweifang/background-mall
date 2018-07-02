@@ -44,6 +44,8 @@ export class TokenInterceptor implements HttpInterceptor {
     // 可以进一步处理，比如：重新刷新或重新登录
     let tokenReq;
     let authToken = utils.getSessionStorage("authToken");
+
+    return;
     if (!authToken) {
       this.goLogin();
       return next.handle(req);

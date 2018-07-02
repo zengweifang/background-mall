@@ -3,17 +3,17 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
-import { BannerService } from '../banner.service';
+import { CommoditypoolsService } from '../commoditypools.service';
 import { CodeHelperService } from "../../../core/code-helper.service";
 
 
 
 @Component({
-	selector: 'client-register',
+	selector: 'commoditypools-list',
 	templateUrl: './list.component.html',
 	styleUrls: ['./list.component.css']
 })
-export class BannerListComponent implements OnInit {
+export class CommoditypoolsListComponent implements OnInit {
 	validateForm: FormGroup;
 	_loading = true;
 	//列表初始值
@@ -36,7 +36,7 @@ export class BannerListComponent implements OnInit {
 
 	constructor(private fb: FormBuilder,
 		private message: NzMessageService,
-		private bannerService: BannerService,
+		private CommoditypoolsService: CommoditypoolsService,
 		private router: Router,
 		private modalService: NzModalService,
 		private codeHelperService: CodeHelperService) {
@@ -45,7 +45,7 @@ export class BannerListComponent implements OnInit {
 	_refreshData = () => {
 		console.log(1)
 		this._loading = true;
-		// this.bannerService.getBannerList(this._params).then(res => {
+		// this.CommoditypoolsService.getApartmentList(this._params).then(res => {
 		// 	this._loading = false;
 		// 	if (res.data) {
 		// 		this._dataSet = res.data;
@@ -60,31 +60,99 @@ export class BannerListComponent implements OnInit {
 		// 	this._loading = false;
 		// })
 
-		var page={
-			pageNum:1,
-			pageSize:10
-		}
-		this.bannerService.getBannerList(page).then(res=>{
-			console.log(res)
-		})
+		// var page={
+		// 	pageNum:1,
+		// 	pageSize:10
+		// }
+		// this.CommoditypoolsService.getCubesList(page).then(res=>{
+		// 	console.log(res)
+		// })
 
 		this._loading = false;
 		this._dataSet.dataList = [
 			{
-			  "id": "3091807393395212288",
-			  "name": "banner2",
-			  "imageUrl": "http://bpic.588ku.com/back_pic/03/70/72/5257b6c12d89875.jpg!",
-			  "url": "/index",
-			  "sort": 1,
-			  "description": "banner图测试"
+			  "name": "珠宝首饰",
+			  "pageNum": "111"
 			},
 			{
-			  "id": "3091804932271473664",
-			  "name": "banner图1",
-			  "imageUrl": "http://bpic.588ku.com/back_pic/03/70/72/5257b6c12d89875.jpg!r850/fw/800",
-			  "url": "/index",
-			  "sort": 0,
-			  "description": "banner图测试"
+			  "name": "钟表",
+			  "pageNum": "112"
+			},
+			{
+			  "name": "鞋靴",
+			  "pageNum": "113"
+			},
+			{
+			  "name": "手机",
+			  "pageNum": "114"
+			},
+			{
+			  "name": "食品饮料",
+			  "pageNum": "115"
+			},
+			{
+			  "name": "汽车用品",
+			  "pageNum": "116"
+			},
+			{
+			  "name": "母婴",
+			  "pageNum": "117"
+			},
+			{
+			  "name": "美妆个护",
+			  "pageNum": "118"
+			},
+			{
+			  "name": "酒类",
+			  "pageNum": "119"
+			},
+			{
+			  "name": "家用电器",
+			  "pageNum": "120"
+			},
+			{
+			  "name": "家具",
+			  "pageNum": "121"
+			},
+			{
+			  "name": "服饰内衣",
+			  "pageNum": "122"
+			},
+			{
+			  "name": "电脑办公",
+			  "pageNum": "123"
+			},
+			{
+			  "name": "厨具",
+			  "pageNum": "124"
+			},
+			{
+			  "name": "家装建材",
+			  "pageNum": "126"
+			},
+			{
+			  "name": "礼品箱包",
+			  "pageNum": "127"
+			},
+			{
+			  "name": "数码",
+			  "pageNum": "128"
+			},
+			{
+			  "name": "玩具乐器",
+			  "pageNum": "129"
+			},
+			{
+			  "name": "运动户外",
+			  "pageNum": "130"
+			},
+			{
+			  "name": "初始",
+			  "pageNum": "131"
+			},
+			{
+			  "name": "家居日用",
+			  "pageNum": "132"
 			}
 		  ]
 	};
@@ -102,7 +170,7 @@ export class BannerListComponent implements OnInit {
 	edit(data) {
 		// const subEditModal = this.modalService.open({
 		// 	title: '公寓基本信息',
-		// 	content: EditBannerComponent,
+		// 	content: EditApartmentModalComponent,
 		// 	onOk() {
 		// 		console.log('click ok')
 		// 	},
@@ -124,14 +192,14 @@ export class BannerListComponent implements OnInit {
 		// 		}
 		// 	}
 		// })
-		this.router.navigate(['/clubs/edit/edit'])
+		this.router.navigate(['/commoditypools/edit/edit'])
 	}
 
 	//新增
 	add() {
 		// const subAddModal = this.modalService.open({
 		// 	title: '新增banner图',
-		// 	content: AddBannerComponent,
+		// 	content: AddApartmentModalComponent,
 		// 	onOk() {
 		// 		console.log('click ok')
 		// 	},
@@ -151,13 +219,13 @@ export class BannerListComponent implements OnInit {
 		// 	}
 
 		// })
-		this.router.navigate(['/apartment/add/addModal'])
+		this.router.navigate(['/commoditypools/add/add'])
 
 
 	}
 
 	delete(data){
-		// this.bannerService.delete(data).then(res=>{
+		// this.CommoditypoolsService.delete(data).then(res=>{
 		// 	console.log(res)
 		// 	this._refreshData();
 		// })

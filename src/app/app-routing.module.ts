@@ -27,6 +27,14 @@ const routes : Routes = [{
 {
   path: 'category',
   loadChildren: 'app/pages/category/category.module#CategoryModule'
+},
+{
+  path: 'base',
+  loadChildren: 'app/pages/base/base.module#BaseModule'
+},
+{
+  path: 'commoditypools',
+  loadChildren: 'app/pages/commoditypools/commoditypools.module#CommoditypoolsModule'
 },{
   path: 'login',
   component: LoginComponent
