@@ -600,10 +600,4 @@ export class AmapService {
         });
         return uuid;		
     }
-
-    // 关键字查询接口
-    searchPOIsByKeyword(keywords){
-        let url = `${service.appBackground}/poi/searchPOIsByKeyword?keywords=${keywords}`;
-		return this.ajaxService.get(url);	
-    }
 }

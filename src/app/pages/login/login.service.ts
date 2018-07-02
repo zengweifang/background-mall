@@ -12,9 +12,7 @@ export class LoginService {
     let reqUrl = `${service.commonService}/background-manage/login/login`;
     let param = {
       'userName':userName,
-      'password':password,
-      'clientId':config.clientId, 
-      'clientSecret': config.clientSecret
+      'password':password
     }
     return new Promise((resolve,reject) =>{
       this.ajaxService.post(reqUrl,param).then(res => {
