@@ -4,7 +4,7 @@ import { service, config } from '../../core/core.config';
 import { HttpParams } from "@angular/common/http";
 
 @Injectable()
-export class ApartmentService {
+export class BannerService {
 	constructor(private ajaxService: AjaxService) { }
 
 	private getBannerListUrl=service.commonService+"/banners";
@@ -21,12 +21,7 @@ export class ApartmentService {
 
 	//获取banner列表
 	getBannerList(data):Promise<any>{
-		var temp = new URLSearchParams();
-		temp.set('pageSize',data.pageSize)
-		temp.set('pageNum',data.pageNum)
-		temp.set('TOKEN',data.TOKEN)
-		console.log(temp)
-		return this.ajaxService.get(this.getBannerListUrl,{params:temp});
+		return this.ajaxService.get(this.getBannerListUrl,{params:data});
 	}
 
 	//新增

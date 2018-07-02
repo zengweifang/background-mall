@@ -1,17 +1,17 @@
 import { Component,Input,OnInit } from "@angular/core";
 import { NzModalSubject } from "ng-zorro-antd";
 import { FormBuilder,FormGroup,Validators,FormControl } from "@angular/forms";
-import { ApartmentService } from "../apartment.service";
+import { BannerService } from "../banner.service";
 import { ValidatorService } from "../../../core/validator.service";
 import { Router } from '@angular/router';
 
 @Component({
-    selector:'addApartment-modal-component',
-    templateUrl:'./addModal.component.html',
+    selector:'add-banner-component',
+    templateUrl:'./add.component.html',
     styleUrls:['../../../app.component.scss']
 })
 
-export class AddApartmentModalComponent implements OnInit{
+export class AddBannerComponent implements OnInit{
     validateForm: FormGroup;
     _id:string;
     isConfirmLoading = false;
@@ -23,7 +23,7 @@ export class AddApartmentModalComponent implements OnInit{
     }
     emitDataOutside(){
         // this.isConfirmLoading = true;
-        // this.apartmentService.addApartment(this.apartmentInfo).then(res => {
+        // this.bannerService.addApartment(this.apartmentInfo).then(res => {
         //     res["status"] = true;
         //     setTimeout(() => {
         //         this.isConfirmLoading = false;
@@ -33,7 +33,7 @@ export class AddApartmentModalComponent implements OnInit{
             
         // })
 
-        // this.apartmentService.add(this.addParams).then(res=>{
+        // this.bannerService.add(this.addParams).then(res=>{
         //     console.log(res)
         //     this.router.navigate(['/list/list'])
         // })
@@ -47,7 +47,7 @@ export class AddApartmentModalComponent implements OnInit{
     
     constructor(private subject:NzModalSubject,
         private fb:FormBuilder,
-        private apartmentService:ApartmentService,
+        private bannerService:BannerService,
         private validatorService:ValidatorService,
         private router:Router){
         this.subject.on('onDestrory',()=>{

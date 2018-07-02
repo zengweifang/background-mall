@@ -1,17 +1,17 @@
 import { Component,Input,OnInit } from "@angular/core";
 import { NzModalSubject } from "ng-zorro-antd";
 import { FormBuilder,FormGroup,Validators,FormControl } from "@angular/forms";
-import { ApartmentService } from "../apartment.service";
+import { BannerService } from "../banner.service";
 import { ValidatorService } from "../../../core/validator.service";
 import { Router } from '@angular/router';
 
 @Component({
-    selector:'edit-modal-component',
-    templateUrl:'./editModal.component.html',
+    selector:'edit-banner-component',
+    templateUrl:'./edit.component.html',
     styleUrls:['../../../app.component.scss']
 })
 
-export class EditApartmentModalComponent implements OnInit{
+export class EditBannerComponent implements OnInit{
     validateForm: FormGroup;
     _id:string;
     isConfirmLoading = false;
@@ -23,7 +23,7 @@ export class EditApartmentModalComponent implements OnInit{
     }
     emitDataOutside(){
         // this.isConfirmLoading = true;
-        // this.apartmentService.saveApartmentDetail(this.apartmentInfo).then(res => {
+        // this.bannerService.saveApartmentDetail(this.apartmentInfo).then(res => {
         //     res["status"] = true;
         //     setTimeout(() => {
         //         this.isConfirmLoading = false;
@@ -33,7 +33,7 @@ export class EditApartmentModalComponent implements OnInit{
             
         // })
 
-        // this.apartmentService.update(this.editParams).then(res=>{
+        // this.bannerService.update(this.editParams).then(res=>{
         //     console.log(res)
         // })
         this.router.navigate(['/list/list'])//test
@@ -46,7 +46,7 @@ export class EditApartmentModalComponent implements OnInit{
 
     constructor(private subject:NzModalSubject,
         private fb:FormBuilder,
-        private apartmentService:ApartmentService,
+        private bannerService:BannerService,
         private validatorService:ValidatorService,
         private router:Router){
         this.subject.on('onDestrory',()=>{
@@ -66,7 +66,7 @@ export class EditApartmentModalComponent implements OnInit{
     }
 
     getBannerInfo(id){
-        this.apartmentService.getBannerInfo(id).then(res=>{
+        this.bannerService.getBannerInfo(id).then(res=>{
             console.log(res)
         })
     }

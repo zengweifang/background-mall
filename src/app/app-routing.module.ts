@@ -17,8 +17,8 @@ import { LoginComponent } from './pages/login/login.component'
 // ]
 
 const routes : Routes = [{
-  path: 'apartment',
-  loadChildren: 'app/pages/apartment/apartment.module#ApartmentModule'
+  path: 'banner',
+  loadChildren: 'app/pages/banner/banner.module#BannerModule'
 },
 {
   path: 'clubs',
@@ -32,11 +32,9 @@ const routes : Routes = [{
   component: LoginComponent
 },{
   path: '',
-  redirectTo: '/apartment/list/list',
+  redirectTo: '/banner/list/list',
   pathMatch: 'full'
 }];
-
-
 
 @NgModule({
 	imports : [RouterModule.forRoot(routes)],

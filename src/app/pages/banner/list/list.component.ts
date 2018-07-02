@@ -3,10 +3,8 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
-import { ApartmentService } from '../apartment.service';
+import { BannerService } from '../banner.service';
 import { CodeHelperService } from "../../../core/code-helper.service";
-import { EditApartmentModalComponent } from "../edit/editModal.component";
-import { AddApartmentModalComponent } from "../add/addModal.component";
 
 
 
@@ -15,7 +13,7 @@ import { AddApartmentModalComponent } from "../add/addModal.component";
 	templateUrl: './list.component.html',
 	styleUrls: ['./list.component.css']
 })
-export class ApartmentListComponent implements OnInit {
+export class BannerListComponent implements OnInit {
 	validateForm: FormGroup;
 	_loading = true;
 	//列表初始值
@@ -38,7 +36,7 @@ export class ApartmentListComponent implements OnInit {
 
 	constructor(private fb: FormBuilder,
 		private message: NzMessageService,
-		private apartmentService: ApartmentService,
+		private bannerService: BannerService,
 		private router: Router,
 		private modalService: NzModalService,
 		private codeHelperService: CodeHelperService) {
@@ -47,7 +45,7 @@ export class ApartmentListComponent implements OnInit {
 	_refreshData = () => {
 		console.log(1)
 		this._loading = true;
-		// this.apartmentService.getApartmentList(this._params).then(res => {
+		// this.bannerService.getApartmentList(this._params).then(res => {
 		// 	this._loading = false;
 		// 	if (res.data) {
 		// 		this._dataSet = res.data;
@@ -66,7 +64,7 @@ export class ApartmentListComponent implements OnInit {
 		// 	pageNum:1,
 		// 	pageSize:10
 		// }
-		// this.apartmentService.getBannerList(page).then(res=>{
+		// this.bannerService.getBannerList(page).then(res=>{
 		// 	console.log(res)
 		// })
 
@@ -104,7 +102,7 @@ export class ApartmentListComponent implements OnInit {
 	edit(data) {
 		// const subEditModal = this.modalService.open({
 		// 	title: '公寓基本信息',
-		// 	content: EditApartmentModalComponent,
+		// 	content: EditBannerComponent,
 		// 	onOk() {
 		// 		console.log('click ok')
 		// 	},
@@ -133,7 +131,7 @@ export class ApartmentListComponent implements OnInit {
 	add() {
 		// const subAddModal = this.modalService.open({
 		// 	title: '新增banner图',
-		// 	content: AddApartmentModalComponent,
+		// 	content: AddBannerComponent,
 		// 	onOk() {
 		// 		console.log('click ok')
 		// 	},
@@ -159,7 +157,7 @@ export class ApartmentListComponent implements OnInit {
 	}
 
 	delete(data){
-		// this.apartmentService.delete(data).then(res=>{
+		// this.bannerService.delete(data).then(res=>{
 		// 	console.log(res)
 		// 	this._refreshData();
 		// })

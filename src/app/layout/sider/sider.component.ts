@@ -26,7 +26,7 @@ export class SiderComponent implements OnInit {
 			subMenus:[
 				{
 					name:'banner图',
-					url:'#/apartment/list/list'
+					url:'#/banner/list/list'
 				},
 				{
 					name:'九宫格',
@@ -54,7 +54,7 @@ export class SiderComponent implements OnInit {
 
 	ngOnInit() {
 		// const userId =  utils.getSessionStorage('userId');
-		const userId = true;
+		var userId = true;
 		if (userId) {
 			this.isLogin = true;
 			this.store.dispatch({type: LOGIN});
